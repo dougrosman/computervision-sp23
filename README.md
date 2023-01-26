@@ -40,6 +40,8 @@ So, what do we need?
 - [] sin()
 - [] frameCount
 - [] push()/pop()
+- [] atan2 (2D)
+- [] atan2 (3D)
 - [] canvas pixel access
 - [] WEBGL mode
 - [] beginShape()/endShape()
