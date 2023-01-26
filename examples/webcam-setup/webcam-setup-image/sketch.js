@@ -1,5 +1,5 @@
-// Webcam Setup Draw
-// Create a webcam feed and draw it to the Canvas (useful for when we're directly pixels from the camera feed)
+// Webcam Setup Image
+// Create a webcam feed and draw it to the Canvas using the image() function (useful for when we're directly pixels from the camera feed)
 
 const cam_w = 640;
 const cam_h = 480;
