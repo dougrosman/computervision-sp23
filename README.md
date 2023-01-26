@@ -36,6 +36,7 @@ So, what do we need?
 - [] push()/pop()
 - [] canvas pixel access
 - [] WEBGL mode
+- [] beginShape()/endShape()
 - [] DOM + GUI
 
 ### CV Basics

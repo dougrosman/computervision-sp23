@@ -4,9 +4,6 @@
     box-sizing: border-box;
 }
 
-video {
+canvas {
     display: block;
-
-    /* mirror the webcam */
-    transform: scaleX(-1);
 }
