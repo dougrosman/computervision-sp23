@@ -1,4 +1,9 @@
-# Webcam Access
+# Webcam Setup
+
+1. [webcam-setup-basic](webcam-setup-basic/index.html)
+2. [webcam-setup-canvas](webcam-setup-canvas/index.html)
+3. [webcam-setup-canvas-responsive](webcam-setup-canvas-responsive/index.html)
+4. [webcam-setup-image](webcam-setup-image/index.html)
 
 There are two ways we'll view our webcam feed in a web page using p5.js:
 
