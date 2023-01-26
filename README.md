@@ -3,6 +3,7 @@
 - [Intro to Computer Vision 2023 - SAIC](#intro-to-computer-vision-2023---saic)
   - [Outline](#outline)
     - [Web Basics](#web-basics)
+    - [Webcam Setup](#webcam-setup)
     - [P5.js Basics](#p5js-basics)
     - [CV Basics](#cv-basics)
     - [Body Tracking](#body-tracking)
@@ -24,11 +25,16 @@ So, what do we need?
 - [] HTML Canvas and p5.js
 - [] CSS positioning
 
-### P5.js Basics
+### Webcam Setup
 
 - [x] Webcam setup (basic)
-- [] Webcam setup (draw to canvas)
-- [] Webcam setup (canvas over video)
+- [x] Webcam setup (image to canvas)
+- [] Webcam setup (image responsive)
+- [x] Webcam setup (canvas over video)
+- [x] Webcam setup (canvas over video responsive)
+
+### P5.js Basics
+
 - [] map()
 - [] lerp()
 - [] sin()
