@@ -1,5 +1,5 @@
-// Webcam Setup Canvas Over
-// Create a webcam feed and draw it OVER the Canvas. This way, we can draw canvas elements as needed, separate from the camera element. We use CSS to position the canvas element on top of the video element
+// Webcam Setup Canvas Responsive
+// Create a webcam feed and draw it OVER the Canvas, and make it fullscreen/responsive. All the responsiveness is handled inside CSS
 
 const cam_w = 640;
 const cam_h = 480;
