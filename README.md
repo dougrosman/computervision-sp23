@@ -26,7 +26,9 @@ So, what do we need?
 
 ### P5.js Basics
 
-- [] Webcam setup
+- [x] Webcam setup (basic)
+- [] Webcam setup (draw to canvas)
+- [] Webcam setup (canvas over video)
 - [] map()
 - [] lerp()
 - [] sin()
@@ -34,6 +36,7 @@ So, what do we need?
 - [] push()/pop()
 - [] canvas pixel access
 - [] WEBGL mode
+- [] DOM + GUI
 
 ### CV Basics
 
@@ -47,6 +50,7 @@ So, what do we need?
 - [] Text Rain
 - [] Blob Detection
 - [] Optical Flow
+- [] Slit Scan
 
 ### Body Tracking
 
