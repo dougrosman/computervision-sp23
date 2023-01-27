@@ -49,8 +49,8 @@ So, what do we need?
 
 ### CV Basics
 
-- [] Image pixel access
-- [] Video pixel access
+- [x] Image pixel access
+- [x] Video pixel access
 - [] Brightness Thresholding
 - [] Brightest Point
 - [] Color Tracker (Dist)
