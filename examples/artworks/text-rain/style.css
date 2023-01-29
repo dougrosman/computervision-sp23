@@ -11,10 +11,10 @@ canvas, video {
 
 canvas {
     /* place the canvas on top of the video */
-    z-index: 1;
+    z-index: 2;
 }
 
 video {
-    /* mirror the webcam */
     transform: scaleX(-1);
+    /* mirror the webcam */
 }
