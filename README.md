@@ -46,12 +46,13 @@ So, what do we need?
 - [] WEBGL mode
 - [] beginShape()/endShape()
 - [] DOM + GUI
+- [] functions
 
 ### CV Basics
 
 - [x] Image pixel access
 - [x] Video pixel access
-- [] Brightness Thresholding
+- [x] Brightness Thresholding
 - [] Brightest Point
 - [] Color Tracker (Dist)
 - [] Color Tracker (Avg)
