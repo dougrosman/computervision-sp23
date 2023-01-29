@@ -42,7 +42,7 @@ So, what do we need?
 - [] push()/pop()
 - [] atan2 (2D)
 - [] atan2 (3D)
-- [] canvas pixel access
+- [x] canvas pixel access
 - [] WEBGL mode
 - [] beginShape()/endShape()
 - [] DOM + GUI
@@ -53,7 +53,8 @@ So, what do we need?
 - [x] Image pixel access
 - [x] Video pixel access
 - [x] Brightness Thresholding
-- [] Brightest Point
+- [x] Brightest Point
+- [x] Brightest Point (Avg)
 - [] Color Tracker (Dist)
 - [] Color Tracker (Avg)
 - [] Rozin Mirror

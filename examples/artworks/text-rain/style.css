@@ -6,10 +6,15 @@
 
 canvas, video {
     display: block;
-    transform: scaleX(-1);
     position: absolute;
 }
 
 canvas {
-    z-index: 2;
+    /* place the canvas on top of the video */
+    z-index: 1;
+}
+
+video {
+    /* mirror the webcam */
+    transform: scaleX(-1);
 }
