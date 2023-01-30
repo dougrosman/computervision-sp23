@@ -11,6 +11,7 @@ function setup() {
     capture = createCapture(VIDEO);
     capture.size(cam_w, cam_h);
 
+    // fill an array with FallingLetters
     for(let i = 0; i < phrase.length; i++) {
         const fontSize = 20;
         const letter = phrase[i];
@@ -23,7 +24,8 @@ function draw() {
     clear(); // clear the canvas before drawing content
 
     capture.loadPixels();
-    
+
+    // for each of the falling letters
     fallingLetters.forEach(fallingLetter => {
 
        while(fallingLetter.position.y > 0 &&
@@ -41,7 +43,7 @@ function draw() {
 // should return true if bright, false if dark
 function checkBrightnessAtPixel(fl) {
 
-    const threshold = floor(map(mouseX, 0, width, 0, 256));
+    const threshold = 80;
     const mirrorX = width-fl.position.x
 
     const index = (mirrorX + fl.position.y * cam_w) * 4;
@@ -60,6 +62,8 @@ function checkBrightnessAtPixel(fl) {
     return false;    
 }
 
+// A FallingLetter is an object that contains a letter, a position, a fallRate and a fontSize
+
 class FallingLetter {
     constructor(letter, position, fontSize) {
         this.letter = letter;
@@ -68,14 +72,18 @@ class FallingLetter {
         this.fontSize = fontSize;
     }
 
+    // update the position of the falling letter on the screen
     update() {
-        if(this.position.y > height+20) {
+        // if the letter has reached the bottom of the window, bring it back to the top
+        if(this.position.y > height+this.fontSize) {
             this.position.y = 0;
         }
-        this.position.y+=this.fallRate;;
-        
+
+        // make the letter fall by increase its y-value
+        this.position.y+=this.fallRate;
     }
 
+    // draw the falling letter to the canvas
     draw() {
         fill(255);
         textSize(this.fontSize);
