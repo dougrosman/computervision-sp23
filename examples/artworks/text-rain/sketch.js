@@ -11,7 +11,6 @@ function setup() {
     capture = createCapture(VIDEO);
     capture.size(cam_w, cam_h);
 
-    // fill an array with FallingLetters
     for(let i = 0; i < phrase.length; i++) {
         const fontSize = 20;
         const letter = phrase[i];
@@ -21,27 +20,25 @@ function setup() {
 }
 
 function draw() {
-    clear(); // clear the canvas before drawing content
+    clear();
 
     capture.loadPixels();
 
-    // for each of the falling letters
     fallingLetters.forEach(fallingLetter => {
 
-       while(fallingLetter.position.y > 0 &&
-            fallingLetter.position.y < height &&
-            !checkBrightnessAtPixel(fallingLetter)) {
-        fallingLetter.position.y--;
-       }
-       fallingLetter.update();
+        while (isLetterTouchingDarkSurface(fallingLetter)
+            && fallingLetter.position.y > 0
+            && fallingLetter.position.y < height) {
 
-       fallingLetter.draw();
+            fallingLetter.position.y--;
+        }
+
+        fallingLetter.update();
+        fallingLetter.draw();
     })
 }
 
-// if bright, keeping falling. if dark, go up
-// should return true if bright, false if dark
-function checkBrightnessAtPixel(fl) {
+function isLetterTouchingDarkSurface(fl) {
 
     const threshold = 80;
     const mirrorX = width-fl.position.x
@@ -51,18 +48,14 @@ function checkBrightnessAtPixel(fl) {
     const g = capture.pixels[index+1]
     const b = capture.pixels[index+2]
 
-    // calculate the pixel brightness by finding the average of the three channels
     const brightness = floor((r + g + b) / 3)
 
-    // keep falling
     if(brightness > threshold) {
-        return true;
+        return false;
     }
-    // stop falling
-    return false;    
+    return true;    
 }
 
-// A FallingLetter is an object that contains a letter, a position, a fallRate and a fontSize
 
 class FallingLetter {
     constructor(letter, position, fontSize) {
@@ -72,18 +65,14 @@ class FallingLetter {
         this.fontSize = fontSize;
     }
 
-    // update the position of the falling letter on the screen
     update() {
-        // if the letter has reached the bottom of the window, bring it back to the top
         if(this.position.y > height+this.fontSize) {
             this.position.y = 0;
         }
 
-        // make the letter fall by increase its y-value
         this.position.y+=this.fallRate;
     }
 
-    // draw the falling letter to the canvas
     draw() {
         fill(255);
         textSize(this.fontSize);
