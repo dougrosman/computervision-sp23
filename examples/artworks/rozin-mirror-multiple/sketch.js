@@ -1,18 +1,21 @@
 // Rozin Mirror
 
 const cam_w = 640;
-const cam_h = 480;
+const cam_h = 360;
+let displayScaler;
 let capture;
 let mode = 0;
 const numModes = 5;
 let autoToggle = false;
-let toggleSpeed = 60;
+let toggleSpeed = 1000;
 
+let dTime = 0;
 function setup() {
-    createCanvas(cam_w, cam_h);
+    createCanvas(windowWidth, windowHeight);
     capture = createCapture(VIDEO);
     capture.size(cam_w, cam_h);
     capture.hide();
+    displayScaler = width/cam_w;
 }
 
 function draw() {
@@ -21,12 +24,19 @@ function draw() {
     capture.loadPixels();
 
     if (autoToggle) {
-        if (frameCount % toggleSpeed == 0) {
+        dTime += deltaTime
+        
+        if (dTime >= 1000) {
             mode = (mode + 1) % numModes;
             console.log(mode)
+            console.log(dTime)
+            dTime = 0;
         }
     }
 
+    push()
+    translate(0, abs((windowHeight-1280))/4)
+    scale(displayScaler, displayScaler)
     if (capture.pixels.length > 0) {
         switch (mode) {
             case 0:
@@ -46,6 +56,12 @@ function draw() {
                 break;
         }
     }
+    pop();
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    displayScaler = width/cam_w;
 }
 
 
@@ -91,14 +107,13 @@ function keyPressed() {
     }
 
     console.log(mode);
-    console.log(toggleSpeed);
 }
 
 function mirrorDoug0() {
-    const stepSize = floor(map(mouseX, 0, width, 8, 80));
-    for (let y = 0; y < height; y += stepSize) {
-        for (let x = 0; x < width; x += stepSize) {
-            const index = (x + y * width) * 4;
+    const stepSize = 20;
+    for (let y = stepSize/2; y < cam_h; y += stepSize) {
+        for (let x = stepSize/2; x < cam_w; x += stepSize) {
+            const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
@@ -115,10 +130,10 @@ function mirrorDoug0() {
 }
 
 function mirrorDoug1() {
-    const stepSize = floor(map(mouseX, 0, width, 8, 80));
-    for (let y = 0; y < height; y += stepSize) {
-        for (let x = 0; x < width; x += stepSize) {
-            const index = (x + y * width) * 4;
+    const stepSize = 20;
+    for (let y = 0; y < cam_h; y += stepSize) {
+        for (let x = 0; x < cam_w; x += stepSize) {
+            const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
@@ -135,18 +150,17 @@ function mirrorDoug1() {
 }
 
 function mirrorDoug2() {
-    background(255, 0, 0);
-    const stepSize = floor(map(mouseX, 0, width, 8, 80));
-    for (let y = 0; y < height; y += stepSize) {
-        for (let x = 0; x < width; x += stepSize) {
-            const index = (x + y * width) * 4;
+    const stepSize = 40;
+    for (let y = 0; y < cam_h; y += stepSize) {
+        for (let x = 0; x < cam_w; x += stepSize) {
+            const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
             const b = capture.pixels[index + 2];
             const brightness = (r + g + b) / 3
 
-            const size = map(brightness * brightness, 0, 255 * 255, 0, stepSize * 8);
+            const size = map(brightness, 0, 255, 0, stepSize);
 
             fill(r, g, b);
             noStroke();
@@ -158,9 +172,9 @@ function mirrorDoug2() {
 function mirrorDoug3() {
     background(0);
     const stepSize = 40;
-    for (let y = 0; y < height; y += stepSize) {
-        for (let x = 0; x < width; x += stepSize) {
-            const index = (width - x + y * width) * 4;
+    for (let y = 0; y < cam_h; y += stepSize) {
+        for (let x = 0; x < cam_w; x += stepSize) {
+            const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
@@ -183,10 +197,10 @@ function mirrorDoug3() {
 
 function mirrorDoug4() {
     clear();
-    const stepSize = 40;
-    for (let y = stepSize / 2; y < height; y += stepSize) {
-        for (let x = stepSize / 2; x < width; x += stepSize) {
-            const index = (width - x + y * width) * 4;
+    const stepSize = 20;
+    for (let y = 0; y < cam_h; y += stepSize) {
+        for (let x = 0; x < cam_w; x += stepSize) {
+            const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
@@ -196,7 +210,7 @@ function mirrorDoug4() {
             const size = map(brightness, 0, 255, 0, stepSize);
 
             stroke(r, g, b);
-            strokeWeight(5);
+            strokeWeight(.5);
 
             line(x, y, x + size, y + size);
             line(x + stepSize, y, x + size, y + size);

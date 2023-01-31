@@ -6,5 +6,5 @@
 
 canvas {
     display: block;
-    transform: scaleX(-1);
+    /* transform: scaleX(-1); */
 }
