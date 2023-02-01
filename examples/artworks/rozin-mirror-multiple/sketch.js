@@ -7,7 +7,7 @@ let capture;
 let mode = 0;
 const numModes = 5;
 let autoToggle = false;
-let toggleSpeed = 1000;
+let toggleTime = 2000;
 
 let dTime = 0;
 function setup() {
@@ -24,9 +24,11 @@ function draw() {
     capture.loadPixels();
 
     if (autoToggle) {
-        dTime += deltaTime
+
+        // deltaTime is time between frames, so dTime accounts for time elapsed, independent of framefrate
+        dTime += deltaTime 
         
-        if (dTime >= 1000) {
+        if (dTime >= toggleTime) {
             mode = (mode + 1) % numModes;
             console.log(mode)
             console.log(dTime)
