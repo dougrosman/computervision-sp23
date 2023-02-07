@@ -1,7 +1,7 @@
-// Rozin Mirror Fullscreen Starter
+// Rozin Mirror Starter
 
 const cam_w = 640;
-const cam_h = 360; // set to 480 for a 4:3 aspect ratio
+const cam_h = 480;
 let capture;
 
 function setup() {
@@ -15,19 +15,12 @@ function draw() {
     clear();
 
     capture.loadPixels();
-    
+
     // ensure we're getting a capture feed before doing any operations on the feed
     if (capture.pixels.length > 0) {
 
-        // scale the canvas up or down depending on the width of the window
-        const scaleRatio = windowWidth / capture.width;
-        const scaledHeight = capture.height * scaleRatio;
+        mirror();
 
-        push();
-            translate(0, (windowHeight - scaledHeight) / 2);
-            scale(scaleRatio, scaleRatio);
-            mirror();
-        pop();
     }
 }
 
@@ -38,27 +31,18 @@ function mirror() {
     const stepSize = 20;
 
     // y and x are set to stepSize/2 (instead of 0) when drawing ellipses so that they aren't cut off on the top and left sides of the sketch
-    for (let y = stepSize/2; y < capture.height; y += stepSize) {
-        for (let x = stepSize/2; x < capture.width; x += stepSize) {
+    for (let y = stepSize / 2; y < capture.height; y += stepSize) {
+        for (let x = stepSize / 2; x < capture.width; x += stepSize) {
             // capture.width - x is an efficient way to mirror your webcam feed
             const index = (capture.width - x + y * capture.width) * 4;
 
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
             const b = capture.pixels[index + 2];
-            
+
             noStroke();
             fill(r, g, b);
             ellipse(x, y, stepSize, stepSize);
         }
     }
-}
-
-function mousePressed() {
-    let fs = fullscreen();
-    fullscreen(!fs);
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
 }
