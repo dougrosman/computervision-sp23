@@ -31,7 +31,7 @@ let currentCapture = 0;
 let mode = 0;
 const numModes = 12;
 let autoToggle = true;
-let toggleTime = 30000;
+let toggleTime = 3000;
 
 let dTime = 0;
 
@@ -160,7 +160,7 @@ function draw() {
       dTime = 0;
       sketchCounter++;
     }
-    if(sketchCounter == numModes * 5 - 1) {
+    if(sketchCounter == numModes * 3 - 1) {
       window.location.href = window.location.href;
     }
   }
@@ -421,7 +421,8 @@ function mirrorJoohyun() {
 
         fill(r, g, b)
 
-        const shapeThreshold = map(mouseX, 0, windowWidth, 0, 255);
+        //const shapeThreshold = map(mouseX, 0, windowWidth, 0, 255);
+        const shapeThreshold = 100;
 
         if (brightness > shapeThreshold) {
           ellipse(x, y, stepSize, stepSize);
