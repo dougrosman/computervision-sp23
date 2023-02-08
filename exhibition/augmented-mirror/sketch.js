@@ -18,6 +18,8 @@ let capture1;
 // 1:1
 let capture2;
 
+let currentCapture = 0;
+
 let mode = 6;
 const numModes = 7;
 let autoToggle = false;
@@ -611,6 +613,7 @@ function mousePressed() {
 }
 
 function setCapture(num) {
+    currentCapture = num;
     let capture;
     switch (num) {
         case 0:
