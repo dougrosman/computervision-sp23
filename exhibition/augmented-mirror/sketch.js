@@ -22,6 +22,11 @@ let toggleTime = 2000;
 
 let dTime = 0;
 
+/////// Chloe
+let blockImage;
+let minecraftColors = [];
+const mcData = [];
+
 /////// Emris
 let weatherData;
 let apiKey = "87fb783a54817f1793f0556477730e7c";
@@ -36,11 +41,15 @@ let unixSunrise;
 let unixSunset;
 let bgVal;
 
+/////// Ernest
+let osc, fft;
+
 
 function preload() {
     let url =
         "https://api.openweathermap.org/data/2.5/weather?lat=41.878113&lon=-87.629799&appid=87fb783a54817f1793f0556477730e7c";
     weatherData = loadJSON(url);
+    blockImage = loadImage("images/MinecraftDiamonds@16.png");
 }
 
 
@@ -61,6 +70,9 @@ function setup() {
     capture2.hide();
 
 
+    /////// Chloe
+    readMinecraftBlockColors();
+
     /////// Emris
     parseData();
 
@@ -68,23 +80,30 @@ function setup() {
     console.log(bgVal);
     h = hour();
     currentH = h;
+
+    /////// Ernest
+    osc = new p5.TriOsc(); // set frequency and type
+    osc.amp(0.5);
+
+    fft = new p5.FFT();
+    osc.start();
 }
 
 function draw() {
 
     switch (mode) {
         case 0:
-            mirrorMeadow();
+            mirrorChloe();
             break;
         case 1:
             mirrorEmris();
             break;
-        // case 2:
-        //     mirrorDoug2();
-        //     break;
-        // case 3:
-        //     mirrorDoug3();
-        //     break;
+        case 2:
+            mirrorErnest();
+            break;
+        case 3:
+            mirrorMeadow();
+            break;
         // case 4:
         //     mirrorDoug4();
         //     break;
@@ -104,11 +123,71 @@ function draw() {
     }
 }
 
+function mirrorChloe() {
+    let capture = setCapture(2);
+
+    const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
+    const scaledHeight = capture.height * scaleRatio;
+    const scaledWidth = capture.width * scaleRatio;
+
+    push()
+    translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
+    scale(scaleRatio, scaleRatio);
+
+    capture.loadPixels();
+    if (capture.pixels.length > 0) {
+
+        const stepSize = 16;
+
+        for (let y = 0; y < capture.height; y += stepSize) {
+            for (let x = 0; x < capture.width; x += stepSize) {
+                const index = (capture.width - x + y * capture.width) * 4;
+
+                const r = capture.pixels[index];
+                const g = capture.pixels[index + 1];
+                const b = capture.pixels[index + 2];
+                let cColor = createVector(r, g, b);
+
+                let distances = [];
+                for (let i = 0; i < minecraftColors.length; i++) {
+                    let mc = minecraftColors[i].map((x) => x);
+                    let mcColor = createVector(mc[0], mc[1], mc[2]);
+                    let dis = cColor.dist(mcColor);
+                    distances.push(dis);
+                }
+                noStroke();
+                const min = distances.reduce((a, b) => Math.min(a, b))
+                let cIndex = distances.indexOf(min);
+
+                let c = minecraftColors[cIndex].map((x) => x);
+                let clr = color(c[0], c[1], c[2])
+                fill(clr);
+
+                square(x, y, 16)
+                distances = [];
+            }
+        }
+    }
+    pop();
+}
+
+function readMinecraftBlockColors() {
+    if (blockImage == undefined || null) {
+        console.log("No Image Detected")
+    }
+
+    for (let x = 0; x < blockImage.width; x++) {
+        for (let y = 0; y < blockImage.height; y++) {
+            minecraftColors.push(blockImage.get(x, y));
+        }
+    }
+}
+
 function mirrorEmris() {
-    
+
     let capture = setCapture(1);
 
-    background(bgVal/1.5, 0, bgVal, 10);
+    background(bgVal / 1.5, 0, bgVal, 10);
     const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
     const scaledHeight = capture.height * scaleRatio;
     const scaledWidth = capture.width * scaleRatio;
@@ -142,19 +221,19 @@ function mirrorEmris() {
                 const r = capture.pixels[index];
                 const g = capture.pixels[index + 1];
                 const b = capture.pixels[index + 2];
-                const brightness = (10 + g + b) / 2.4;
+                const brightness = (r + g + b) / 3;
 
                 if (x % 3 == 0) {
-                    fill(bgVal, 255-bgVal, 255-bgVal, 255 - brightness*3);
+                    fill(bgVal, 255 - bgVal, 255 - bgVal, 255 - brightness * 3);
                     textSize(5);
-                    text(currentWeather, x-(bgVal/2), y-(bgVal/2));
-                  }
-            
-                  const size = map(brightness, 0, 255, stepSize, stepSize * 3);
-                  noStroke();
-                  fill((r + b) / 2, 0, b, 255 - brightness * 2);
-            
-                  ellipse(x, y, size * 4, size / 3);
+                    text(currentWeather, x - (bgVal / 2), y - (bgVal / 2));
+                }
+
+                const size = map(brightness, 0, 255, stepSize, stepSize * 3);
+                noStroke();
+                fill((r + b) / 2, 0, b, 255 - brightness * 2);
+
+                ellipse(x, y, size * 4, size / 3);
             }
         }
     }
@@ -168,6 +247,58 @@ function parseData() {
     unixSunset = weatherData.sunset;
 }
 
+function mirrorErnest() {
+
+    let capture = setCapture(0);
+
+    background(0, 0, 255);
+    const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
+    const scaledHeight = capture.height * scaleRatio;
+    const scaledWidth = capture.width * scaleRatio;
+
+    push()
+    translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
+    scale(scaleRatio, scaleRatio);
+
+    capture.loadPixels();
+    if (capture.pixels.length > 0) {
+
+        const stepSize = 20;
+
+        for (let y = 0; y < capture.height; y += stepSize) {
+            for (let x = 0; x < capture.width; x += stepSize) {
+                const index = (capture.width - x + y * capture.width) * 4;
+
+                const r = capture.pixels[index];
+                const g = capture.pixels[index + 1];
+                const b = capture.pixels[index + 2];
+                const brightness = (r + g + b) / 3;
+
+                stroke(r, g, b);
+                strokeWeight(1);
+                rotate(PI / brightness);
+
+                strokeJoin(BEVEL);
+                strokeCap(PROJECT);
+
+                fill(r / brightness, g / brightness, b / brightness, 0);
+
+                quad(
+                    x,
+                    y,
+                    brightness * 2,
+                    brightness * 3,
+                    brightness * 4,
+                    brightness * 5,
+                    brightness * 6,
+                    brightness * 7
+                );
+            }
+        }
+    }
+    pop();
+}
+
 function mirrorMeadow() {
     let capture = setCapture(2);
 
@@ -175,11 +306,11 @@ function mirrorMeadow() {
     const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
     const scaledHeight = capture.height * scaleRatio;
     const scaledWidth = capture.width * scaleRatio;
-    
+
     push()
     translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
     scale(scaleRatio, scaleRatio);
-    
+
     capture.loadPixels();
     if (capture.pixels.length > 0) {
 
@@ -267,10 +398,10 @@ function keyPressed() {
     console.log(mode);
 }
 
-function mousePressed() {
-    let fs = fullscreen();
-    fullscreen(!fs);
-}
+// function mousePressed() {
+//     let fs = fullscreen();
+//     fullscreen(!fs);
+// }
 
 function setCapture(num) {
     let capture;
