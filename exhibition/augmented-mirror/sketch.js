@@ -287,13 +287,13 @@ function mirrorEmris() {
     parseData();
     currentH = h;
   }
-  if ((unixDT > unixSunrise) && (unixDT < unixSunset)) {
-    fill('yellow');
-    ellipse(capture.width / 5, capture.height / 5, 30, 30);
-  } else {
-    fill('white');
-    ellipse(capture.width / 5, capture.height / 5, 20, 20);
-  }
+  // if ((unixDT > unixSunrise) && (unixDT < unixSunset)) {
+  //   fill('yellow');
+  //   ellipse(capture.width / 5, capture.height / 5, 30, 30);
+  // } else {
+  //   fill('white');
+  //   ellipse(capture.width / 5, capture.height / 5, 20, 20);
+  // }
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
