@@ -15,8 +15,8 @@ let capture0;
 // 1:1
 let capture1;
 
-let mode = 0;
-const numModes = 5;
+let mode = 5;
+const numModes = 6;
 let autoToggle = false;
 let toggleTime = 2000;
 
@@ -102,11 +102,14 @@ function draw() {
             mirrorErnest();
             break;
         case 3:
+            mirrorJoohyun();
+            break;
+        case 4:
             mirrorMeadow();
             break;
-        // case 4:
-        //     mirrorDoug4();
-        //     break;
+        case 5:
+            mirrorNicole();
+            break;
     }
 
     if (autoToggle) {
@@ -299,6 +302,49 @@ function mirrorErnest() {
     pop();
 }
 
+function mirrorJoohyun() {
+
+    let capture = setCapture(0);
+
+    background(0, 50, 0);
+    const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
+    const scaledHeight = capture.height * scaleRatio;
+    const scaledWidth = capture.width * scaleRatio;
+
+    push()
+    translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
+    scale(scaleRatio, scaleRatio);
+    rectMode(CENTER);
+
+    capture.loadPixels();
+    if (capture.pixels.length > 0) {
+
+        const stepSize = 20;
+
+        for (let y = stepSize / 2; y < capture.height; y += stepSize) {
+            for (let x = stepSize / 2; x < capture.width; x += stepSize) {
+                const index = (capture.width - x + y * capture.width) * 4;
+
+                const r = capture.pixels[index];
+                const g = capture.pixels[index + 1];
+                const b = capture.pixels[index + 2];
+                const brightness = (r + g + b) / 3;
+
+                fill(r, g, b)
+
+                const shapeThreshold = map(mouseX, 0, windowWidth, 0, 255);
+
+                if (brightness > shapeThreshold) {
+                    ellipse(x, y, stepSize, stepSize);
+                } else {
+                    rect(x, y, stepSize, stepSize);
+                }
+            }
+        }
+    }
+    pop();
+}
+
 function mirrorMeadow() {
     let capture = setCapture(2);
 
@@ -341,6 +387,52 @@ function mirrorMeadow() {
     pop();
 }
 
+function mirrorNicole() {
+
+    let capture = setCapture(0);
+
+    background(100,0,100);
+    const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
+    const scaledHeight = capture.height * scaleRatio;
+    const scaledWidth = capture.width * scaleRatio;
+
+    push()
+    translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
+    scale(scaleRatio, scaleRatio);
+
+    capture.loadPixels();
+    if (capture.pixels.length > 0) {
+
+        const stepSize = 40;
+
+        for (let y = 0; y < capture.height; y += stepSize) {
+            for (let x = 0; x < capture.width; x += stepSize) {
+                const index = (capture.width - x + y * capture.width) * 4;
+
+                const r = capture.pixels[index];
+                const g = capture.pixels[index + 1];
+                const b = capture.pixels[index + 2];
+                const brightness = (r + g + b) / 3;
+
+                const size = map(brightness, 0, 255, stepSize / 4, stepSize);
+                //noStroke();
+                stroke(r, g, b, 255);
+                strokeWeight(10);
+                fill(r * 2, brightness, 255);
+
+                //ellipse(x, y, size, size)
+                rect(x, y, size * 3, size * 2);
+                textSize(brightness / 2);
+                fill(180, brightness, 200);
+                text("nikita", x, y);
+                blendMode(HARD_LIGHT);
+                // blendMode(REPLACE);
+            }
+        }
+    }
+    pop();
+}
+
 
 
 function windowResized() {
@@ -371,20 +463,41 @@ function keyPressed() {
             autoToggle = !autoToggle;
             console.log(autoToggle)
             break;
-        case 49:
+        case 48:
             mode = 0;
             break;
-        case 50:
+        case 49:
             mode = 1;
             break;
-        case 51:
+        case 50:
             mode = 2;
             break;
-        case 52:
+        case 51:
             mode = 3;
             break;
-        case 53:
+        case 52:
             mode = 4;
+            break;
+        case 53:
+            mode = 5;
+            break;
+        case 54:
+            mode = 6;
+            break;
+        case 55:
+            mode = 7;
+            break;
+        case 56:
+            mode = 8;
+            break;
+        case 57:
+            mode = 9;
+            break;
+        case 81: // Q
+            mode = 10;
+            break;
+        case 87: // W
+            mode = 11;
             break;
         case UP_ARROW:
             toggleSpeed += 4;
@@ -398,10 +511,10 @@ function keyPressed() {
     console.log(mode);
 }
 
-// function mousePressed() {
-//     let fs = fullscreen();
-//     fullscreen(!fs);
-// }
+function mousePressed() {
+    let fs = fullscreen();
+    fullscreen(!fs);
+}
 
 function setCapture(num) {
     let capture;
