@@ -103,7 +103,7 @@ function setup() {
   osc.amp(0.5);
 
   fft = new p5.FFT();
-  osc.start();
+  //osc.start();
 }
 
 function draw() {
@@ -872,10 +872,10 @@ function keyPressed() {
   console.log(mode);
 }
 
-function mousePressed() {
-  let fs = fullscreen();
-  fullscreen(!fs);
-}
+// function mousePressed() {
+//   let fs = fullscreen();
+//   fullscreen(!fs);
+// }
 
 function setCapture(num) {
   currentCapture = num;
