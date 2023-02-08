@@ -26,7 +26,7 @@ let capture3;
 
 let currentCapture = 0;
 
-let mode = 10;
+let mode = 11;
 const numModes = 12;
 let autoToggle = false;
 let toggleTime = 2000;
@@ -126,18 +126,21 @@ function draw() {
       mirrorJun();
       break;
     case 6:
-      mirrorMeadow();
+      mirrorLula();
       break;
     case 7:
-      mirrorNicole();
+      mirrorMeadow();
       break;
     case 8:
-      mirrorReid();
+      mirrorNicole();
       break;
     case 9:
-      mirrorTheo();
+      mirrorReid();
       break;
     case 10:
+      mirrorTheo();
+      break;
+    case 11:
       mirrorZechen();
       break;
   }
@@ -427,7 +430,7 @@ function mirrorJoohyun() {
 
 function mirrorJun() {
 
-  let capture = setCapture(1);
+  let capture = setCapture(0);
 
   background(0);
   const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
@@ -461,6 +464,44 @@ function mirrorJun() {
         } else {
           ellipse(x, y, stepSize, stepSize / 4)
         }
+      }
+    }
+  }
+  pop();
+}
+
+function mirrorLula() {
+
+  let capture = setCapture(0);
+
+  background(255);
+  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
+  const scaledHeight = capture.height * scaleRatio;
+  const scaledWidth = capture.width * scaleRatio;
+
+  push()
+  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
+  scale(scaleRatio, scaleRatio);
+
+  capture.loadPixels();
+  if (capture.pixels.length > 0) {
+
+    const stepSize = 20;
+
+    for (let y = stepSize / 2; y < capture.height; y += stepSize) {
+      for (let x = stepSize / 2; x < capture.width; x += stepSize) {
+        const index = (capture.width - x + y * capture.width) * 4;
+
+        const r = capture.pixels[index];
+        const g = capture.pixels[index + 1];
+        const b = capture.pixels[index + 2];
+        const brightness = (r + g + b) / 3;
+
+        const size = map(brightness, 0, 255, stepSize / 4, stepSize * 10);
+        noFill();
+        stroke //(r, g, b);
+
+        ellipse(x, y, size, brightness) //stepSize brightness
       }
     }
   }
@@ -557,7 +598,7 @@ function mirrorNicole() {
 
 function mirrorReid() {
 
-  let capture = setCapture(1);
+  let capture = setCapture(0);
 
   background(255);
   const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
@@ -580,7 +621,7 @@ function mirrorReid() {
     const stepSize = capture.height / 5;
 
     for (let y = stepSize; y < capture.height - (capture.height / 5); y += stepSize) {
-      for (let x = stepSize; x < capture.height - (capture.height / 5); x += stepSize) {
+      for (let x = 220; x < capture.width - (3*capture.height / 5); x += stepSize) {
         const index = (capture.width - x + y * capture.width) * 4;
 
         const r = capture.pixels[index];
@@ -602,7 +643,7 @@ function mirrorReid() {
 
 function mirrorTheo() {
 
-  let capture = setCapture(1);
+  let capture = setCapture(0);
 
   background(30, 30, 30);
   const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
@@ -613,12 +654,13 @@ function mirrorTheo() {
   translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
   scale(scaleRatio, scaleRatio);
 
-  rectMode(CENTER)
+  // rectMode(CENTER)
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    let stepSize = 40;
+    // mirror 0
+    let stepSize = 20;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
         const index = (capture.width - x + y * capture.width) * 4;
@@ -628,9 +670,9 @@ function mirrorTheo() {
         const b = capture.pixels[index + 2];
         const brightness = (r + g + b) / 3;
 
-        // mirror 0
         fill(0, brightness, 0);
-        const threshold = map(mouseX, 0, windowWidth, 0, 255);
+        //const threshold = map(mouseX, 0, windowWidth, 0, 255);
+        const threshold = 127;
         const size = map(brightness, 0, 255, 10, 100);
         if (brightness > threshold) {
           ellipse(x, y, size, size)
@@ -641,7 +683,7 @@ function mirrorTheo() {
     }
 
     // mirror 2
-    stepSize = 20;
+    stepSize = 40;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
         const index = (capture.width - x + y * capture.width) * 4;
@@ -651,18 +693,7 @@ function mirrorTheo() {
         const b = capture.pixels[index + 2];
         const brightness = (r + g + b) / 3;
 
-        // mirror 0
-        fill(0, brightness, 0);
-        const threshold = map(mouseX, 0, 640, 0, 255);
-        const size = map(brightness, 0, 255, 10, 100);
-        if (brightness > threshold) {
-          ellipse(x, y, size, size)
-        } else {
-          rect(x, y, size, size)
-        }
-
-        // mirror 2
-        line(x, y, width / 2, height)
+        line(x, y, capture.width / 2, capture.height + 40)
 
         textSize(brightness / 5)
         fill(0, 255, 0);
@@ -707,6 +738,7 @@ function mirrorZechen() {
 
         fill(226, 94, 110)
 
+        textAlign(CENTER, TOP);
         textSize(brightness / 10)
 
         if (brightness > 100 && brightness < 200) {
@@ -731,6 +763,7 @@ function mirrorZechen() {
           const b = capture.pixels[index + 2];
           const brightness = (r + g + b) / 2;
 
+          rectMode(CENTER);
           if (brightness > 100) {
             fill(255, 174, 113, 20)
           } else {
@@ -763,99 +796,99 @@ function mirrorZechen() {
 }
 
 
-  function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-  }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
-  function keyPressed() {
-    clear();
-    switch (keyCode) {
-      case RIGHT_ARROW:
-        mode++;
-        if (mode >= numModes) {
-          mode = 0;
-        }
-        break;
-      case LEFT_ARROW:
-        mode--;
-        if (mode < 0) {
-          mode = numModes - 1;
-        }
-        break;
-      case 32:
-        autoToggle = !autoToggle;
-        console.log(autoToggle)
-        break;
-      case 48:
+function keyPressed() {
+  clear();
+  switch (keyCode) {
+    case RIGHT_ARROW:
+      mode++;
+      if (mode >= numModes) {
         mode = 0;
-        break;
-      case 49:
-        mode = 1;
-        break;
-      case 50:
-        mode = 2;
-        break;
-      case 51:
-        mode = 3;
-        break;
-      case 52:
-        mode = 4;
-        break;
-      case 53:
-        mode = 5;
-        break;
-      case 54:
-        mode = 6;
-        break;
-      case 55:
-        mode = 7;
-        break;
-      case 56:
-        mode = 8;
-        break;
-      case 57:
-        mode = 9;
-        break;
-      case 81: // Q
-        mode = 10;
-        break;
-      case 87: // W
-        mode = 11;
-        break;
-      case UP_ARROW:
-        toggleSpeed += 4;
-        break;
-      case DOWN_ARROW:
-        if (toggleSpeed > 8) toggleSpeed -= 4;
-        break;
-    }
-
-
-    console.log(mode);
+      }
+      break;
+    case LEFT_ARROW:
+      mode--;
+      if (mode < 0) {
+        mode = numModes - 1;
+      }
+      break;
+    case 32:
+      autoToggle = !autoToggle;
+      console.log(autoToggle)
+      break;
+    case 48:
+      mode = 0;
+      break;
+    case 49:
+      mode = 1;
+      break;
+    case 50:
+      mode = 2;
+      break;
+    case 51:
+      mode = 3;
+      break;
+    case 52:
+      mode = 4;
+      break;
+    case 53:
+      mode = 5;
+      break;
+    case 54:
+      mode = 6;
+      break;
+    case 55:
+      mode = 7;
+      break;
+    case 56:
+      mode = 8;
+      break;
+    case 57:
+      mode = 9;
+      break;
+    case 81: // Q
+      mode = 10;
+      break;
+    case 87: // W
+      mode = 11;
+      break;
+    case UP_ARROW:
+      toggleSpeed += 4;
+      break;
+    case DOWN_ARROW:
+      if (toggleSpeed > 8) toggleSpeed -= 4;
+      break;
   }
 
-  function mousePressed() {
-    let fs = fullscreen();
-    fullscreen(!fs);
+
+  console.log(mode);
+}
+
+function mousePressed() {
+  let fs = fullscreen();
+  fullscreen(!fs);
+}
+
+function setCapture(num) {
+  currentCapture = num;
+  let capture;
+  switch (num) {
+    case 0:
+      capture = capture0;
+      break;
+    case 1:
+      capture = capture1;
+      break;
+    case 2:
+      capture = capture2;
+      break;
+    case 3:
+      capture = capture3;
+      break;
   }
 
-  function setCapture(num) {
-    currentCapture = num;
-    let capture;
-    switch (num) {
-      case 0:
-        capture = capture0;
-        break;
-      case 1:
-        capture = capture1;
-        break;
-      case 2:
-        capture = capture2;
-        break;
-      case 3:
-        capture = capture3;
-        break;
-    }
-
-    return capture;
-  }
+  return capture;
+}
