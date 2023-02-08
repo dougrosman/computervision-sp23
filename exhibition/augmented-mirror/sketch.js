@@ -1,5 +1,7 @@
 // Rozin Mirror
 
+let sketchCounter = 0;
+
 const cam0_w = 640;
 const cam0_h = 360;
 
@@ -26,10 +28,10 @@ let capture3;
 
 let currentCapture = 0;
 
-let mode = 11;
+let mode = 0;
 const numModes = 12;
-let autoToggle = false;
-let toggleTime = 2000;
+let autoToggle = true;
+let toggleTime = 30000;
 
 let dTime = 0;
 
@@ -151,10 +153,15 @@ function draw() {
     dTime += deltaTime
 
     if (dTime >= toggleTime) {
+      //clear();
       mode = (mode + 1) % numModes;
       console.log(mode)
       console.log(dTime)
       dTime = 0;
+      sketchCounter++;
+    }
+    if(sketchCounter == numModes * 5 - 1) {
+      window.location.href = window.location.href;
     }
   }
 }
