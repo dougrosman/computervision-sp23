@@ -15,7 +15,7 @@ let capture0;
 // 1:1
 let capture1;
 
-let mode = 1;
+let mode = 0;
 const numModes = 5;
 let autoToggle = false;
 let toggleTime = 2000;
@@ -104,9 +104,6 @@ function draw() {
     }
 }
 
-
-
-
 function mirrorEmris() {
     
     let capture = setCapture(1);
@@ -174,7 +171,7 @@ function parseData() {
 function mirrorMeadow() {
     let capture = setCapture(2);
 
-    background(255);
+    background(100, 100, 255);
     const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
     const scaledHeight = capture.height * scaleRatio;
     const scaledWidth = capture.width * scaleRatio;
