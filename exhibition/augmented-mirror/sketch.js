@@ -160,7 +160,7 @@ function draw() {
 }
 
 function mirrorAnnie() {
-
+  clear();
   let capture = setCapture(3);
 
   background(0);
@@ -210,6 +210,7 @@ function mirrorAnnie() {
 }
 
 function mirrorChloe() {
+  clear();
   let capture = setCapture(2);
 
   const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
@@ -270,7 +271,6 @@ function readMinecraftBlockColors() {
 }
 
 function mirrorEmris() {
-
   let capture = setCapture(1);
 
   background(bgVal / 1.5, 0, bgVal, 10);
@@ -334,7 +334,6 @@ function parseData() {
 }
 
 function mirrorErnest() {
-
   let capture = setCapture(0);
 
   background(0, 0, 255);
@@ -429,7 +428,6 @@ function mirrorJoohyun() {
 }
 
 function mirrorJun() {
-
   let capture = setCapture(0);
 
   background(0);
@@ -471,7 +469,6 @@ function mirrorJun() {
 }
 
 function mirrorLula() {
-
   let capture = setCapture(0);
 
   background(255);
@@ -509,6 +506,7 @@ function mirrorLula() {
 }
 
 function mirrorMeadow() {
+  
   let capture = setCapture(2);
 
   background(100, 100, 255);
@@ -551,7 +549,6 @@ function mirrorMeadow() {
 }
 
 function mirrorNicole() {
-
   let capture = setCapture(0);
 
   background(100, 0, 100);
