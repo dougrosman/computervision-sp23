@@ -1,10 +1,19 @@
 // Rozin Mirror
 
-const cam_w = 640;
-const cam_h = 360;
+const cam0_w = 640;
+const cam0_h = 360;
 
+const cam1_w = 640;
+const cam1_h = 640;
 
-let capture;
+let currentCapture = 0;
+
+// 16:9
+let capture0;
+
+// 1:1
+let capture1;
+
 let mode = 0;
 const numModes = 5;
 let autoToggle = false;
@@ -13,44 +22,34 @@ let toggleTime = 2000;
 let dTime = 0;
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    capture = createCapture(VIDEO);
-    capture.size(cam_w, cam_h);
-    capture.hide();
+    capture0 = createCapture(VIDEO);
+    capture1 = createCapture(VIDEO);
+    capture0.size(cam0_w, cam0_h);
+    capture1.size(cam1_w, cam1_h);
+    capture0.hide();
+    capture1.hide();
 }
 
 function draw() {
     //clear();
 
-    
-
-
-    const scaleRatio = windowWidth / capture.width;
-    const scaledHeight = capture.height * scaleRatio;
-
-    push()
-    translate(0, (windowHeight - scaledHeight) / 2);
-    scale(scaleRatio, scaleRatio);
-
-    
-        switch (mode) {
-            case 0:
-                mirrorMeadow();
-                break;
-            // case 1:
-            //     mirrorDoug1();
-            //     break;
-            // case 2:
-            //     mirrorDoug2();
-            //     break;
-            // case 3:
-            //     mirrorDoug3();
-            //     break;
-            // case 4:
-            //     mirrorDoug4();
-            //     break;
-        }
+    switch (mode) {
+        case 0:
+            mirrorMeadow();
+            break;
+        // case 1:
+        //     mirrorDoug1();
+        //     break;
+        // case 2:
+        //     mirrorDoug2();
+        //     break;
+        // case 3:
+        //     mirrorDoug3();
+        //     break;
+        // case 4:
+        //     mirrorDoug4();
+        //     break;
     }
-    pop();
 
     if (autoToggle) {
 
@@ -64,45 +63,57 @@ function draw() {
             dTime = 0;
         }
     }
+}
 
 
 function mirrorMeadow() {
-    // background(255);
-    //capture.size(360, 360);
-    capture.loadPixels();
+    currentCapture = 2;
+    capture1.loadPixels();
 
-    if (capture.pixels.length > 0) {
+    const scaleRatio = windowWidth / capture1.width;
+    const scaledHeight = capture1.height * scaleRatio;
+
+    push()
+    translate(0, (windowHeight - scaledHeight) / 2);
+    scale(scaleRatio, scaleRatio);
+
+    if (capture1.pixels.length > 0) {
 
 
-    const stepSize = 10;
-  
-    for (let y = stepSize / 2; y < capture.height; y += stepSize) {
-      for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
-  
-        const r = capture.pixels[index];
-        const g = capture.pixels[index + 1];
-        const b = capture.pixels[index + 2];
-        const brightness = (10 + g + b) / 2.4;
-  
-        noStroke();
-        fill(r, g, 255);
-  
-        if (brightness > 230) {
-          square(y, x, 0, 0);
-        } else {
-          square(y, x, 10, 10);
+        const stepSize = 10;
+
+        for (let y = stepSize / 2; y < capture1.height; y += stepSize) {
+            for (let x = stepSize / 2; x < capture1.width; x += stepSize) {
+                const index = (capture1.width - x + y * capture1.width) * 4;
+
+                const r = capture1.pixels[index];
+                const g = capture1.pixels[index + 1];
+                const b = capture1.pixels[index + 2];
+                const brightness = (10 + g + b) / 2.4;
+
+                noStroke();
+                fill(r, g, 255);
+
+                if (brightness > 230) {
+                    square(y, x, 0, 0);
+                } else {
+                    square(y, x, 10, 10);
+                }
+
+                ellipse(x, y, stepSize, stepSize);
+            }
         }
-  
-        ellipse(x, y, stepSize, stepSize);
-      }
     }
-}
+    pop();
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    displayScaler = width / cam_w;
+
+    if(currentCapture === 1) {
+        displayScaler = width / capture1.width;
+    }
+    displayScaler = width / capture0.width;
 }
 
 function keyPressed() {
@@ -148,4 +159,9 @@ function keyPressed() {
 
 
     console.log(mode);
+}
+
+function mousePressed() {
+    let fs = fullscreen();
+    fullscreen(!fs);
 }
