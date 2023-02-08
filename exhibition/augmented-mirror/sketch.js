@@ -31,7 +31,7 @@ let currentCapture = 0;
 let mode = 0;
 const numModes = 12;
 let autoToggle = true;
-let toggleTime = 3000;
+let toggleTime = 30000;
 
 let dTime = 0;
 
