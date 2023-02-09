@@ -813,6 +813,8 @@ function keyPressed() {
       if (toggleSpeed > 8) toggleSpeed -= 4;
       break;
   }
+
+
   console.log(mode);
 }
 
