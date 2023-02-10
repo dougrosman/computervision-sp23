@@ -78,15 +78,11 @@ function setup() {
   background(0);
   pixelDensity(1);
 
-  capture0 = createCapture(constraints0, function(stream){
-    console.log(stream);
-  });
-  //capture0.size(cam0_w, cam0_h);
+  capture0 = createCapture(VIDEO);
+  capture0.size(cam0_w, cam0_h);
   capture0.hide();
 
-  capture1 = createCapture(constraints1, function(stream){
-    console.log(stream);
-  });
+  capture1 = createCapture(VIDEO);
   capture1.size(cam1_w, cam1_h);
   capture1.hide();
 
