@@ -102,15 +102,15 @@ function setup() {
 }
 
 function draw() {
-
-  frameRate(60);
-  nightMode.style.display = "none";
   const d = new Date();
   let hour = d.getHours();
   if(hour < 6 || hour > 22) {
     // slow down at night to save a lil power :)
     nightMode.style.display = "grid"
     frameRate(0.05)
+  } else {
+    frameRate(60);
+    nightMode.style.display = "none";
   }
 
   switch (mode) {
