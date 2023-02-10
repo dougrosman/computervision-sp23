@@ -145,7 +145,7 @@ function mirrorAnnie(webcamDimensions) {
   if (capture.pixels.length > 0) {
 
     push();
-    const stepSize = 32;
+    const stepSize = 28;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
         const index = ((capture.width - x) + y * capture.width) * 4;
@@ -527,6 +527,7 @@ function mirrorTheo(webcamDimensions) {
         //const threshold = map(mouseX, 0, windowWidth, 0, 255);
         const threshold = 127;
         const size = map(brightness, 0, 255, 10, 50);
+        stroke(0);
         if (brightness > threshold) {
           ellipse(x, y, size, size)
         } else {
@@ -605,33 +606,15 @@ function mirrorZechen(webcamDimensions) {
           const r = capture.pixels[index];
           const g = capture.pixels[index + 1];
           const b = capture.pixels[index + 2];
-          const brightness = (r + g + b) / 2;
-
+          const brightness = (r + g + b) / 3;
+          
           rectMode(CENTER);
-          if (brightness > 100) {
+          fill(227, 169, 234, 20)
+          if (brightness > 120) {
             fill(255, 174, 113, 20)
-          } else {
-            fill(227, 169, 234, 20)
           }
-          rect(x, y, brightness / 3, brightness / 3);
-        }
-      }
-
-      // mirror 5
-      stepSize = 60;
-
-      for (let y = stepSize / 2; y < capture.height; y += stepSize) {
-        for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-          const index = ((capture.width - x) + y * capture.width) * 4;
-
-          const r = capture.pixels[index];
-          const g = capture.pixels[index + 1];
-          const b = capture.pixels[index + 2];
-          const brightness = (r + g + b) / 2;
-
-          if (brightness < mouseX) {
-            ellipse(x, y, brightness / 10, brightness / 10)
-          }
+          rect(x, y, brightness / 2, brightness / 2);
+          ellipse(x, y, brightness / 6, brightness / 6)
         }
       }
       pop();
