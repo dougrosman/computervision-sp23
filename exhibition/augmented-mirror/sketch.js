@@ -42,6 +42,7 @@ let mode = 0;
 const numModes = 11;
 let autoToggle = true;
 let toggleTime = 30000;
+let updateCard = true;
 
 let dTime = 0;
 
@@ -143,7 +144,7 @@ function draw() {
     dTime += deltaTime
 
     if (dTime >= toggleTime) {
-      
+      updateCard = true;
       mode = (mode + 1) % numModes;
       console.log(mode)
       // console.log(dTime)
@@ -158,6 +159,9 @@ function draw() {
 }
 
 function mirrorAnnie(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Annie Hu");
+  }
   let capture = setCapture(webcamDimensions);
   background(0);
 
@@ -200,6 +204,9 @@ function mirrorAnnie(webcamDimensions) {
 }
 
 function mirrorChloe(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Chloe Thompson");
+  }
   let capture = setCapture(webcamDimensions);
 
   capture.loadPixels();
@@ -254,6 +261,9 @@ function readMinecraftBlockColors() {
 }
 
 function mirrorEmris(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Emris Brandt");
+  }
   let capture = setCapture(webcamDimensions);
 
   bgVal = map(minute(), 0, 60, 0, 255);
@@ -305,6 +315,9 @@ function parseData() {
 }
 
 function mirrorErnest(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Ernest Strauhal");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(0, 0, 255);
@@ -349,6 +362,9 @@ function mirrorErnest(webcamDimensions) {
 }
 
 function mirrorJun(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Hyung Jun Park");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(0);
@@ -383,6 +399,9 @@ function mirrorJun(webcamDimensions) {
 }
 
 function mirrorLula(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Lula Asplund");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(255);
@@ -412,7 +431,9 @@ function mirrorLula(webcamDimensions) {
 }
 
 function mirrorMeadow(webcamDimensions) {
-
+  if(updateCard){
+    updateTitleCard("Meadow Favuzzi");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(100, 100, 255);
@@ -449,6 +470,9 @@ function mirrorMeadow(webcamDimensions) {
 }
 
 function mirrorNicole(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Nicole Javellana");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(100, 0, 100);
@@ -485,7 +509,9 @@ function mirrorNicole(webcamDimensions) {
 }
 
 function mirrorReid(webcamDimensions) {
-
+  if(updateCard){
+    updateTitleCard("Reid Arowood");
+  }
   let capture = setCapture(webcamDimensions);
 
 
@@ -522,7 +548,9 @@ function mirrorReid(webcamDimensions) {
 }
 
 function mirrorTheo(webcamDimensions) {
-
+  if(updateCard){
+    updateTitleCard("Theo Wu");
+  }
   let capture = setCapture(webcamDimensions);
 
   background(30, 30, 30);
@@ -581,6 +609,9 @@ function mirrorTheo(webcamDimensions) {
 }
 
 function mirrorZechen(webcamDimensions) {
+  if(updateCard){
+    updateTitleCard("Zechen Li");
+  }
   background(20, 20, 20);
   let capture = setCapture(webcamDimensions);
 
@@ -649,6 +680,7 @@ function mirrorZechen(webcamDimensions) {
 
 function keyPressed() {
   clear();
+  updateCard = true;
   switch (keyCode) {
     case RIGHT_ARROW:
       mode++;
@@ -712,6 +744,13 @@ function keyPressed() {
 
 
   console.log(mode);
+}
+
+function updateTitleCard(name) {
+  let newElement = titleCard.cloneNode(true);
+  titleCard.parentNode.replaceChild(newElement, titleCard);
+  titleCard.textContent = name;
+  updateCard = false;
 }
 
 function setCapture(num) {

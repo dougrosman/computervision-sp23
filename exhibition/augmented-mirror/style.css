@@ -1,5 +1,11 @@
+@font-face {
+  font-family: 'Space Mono';
+  src: url('fonts/Space_Mono/SpaceMono-Regular.ttf');
+}
+
 body {
   background-color: black;
+  font-family: 'Space Mono', monospace;
 }
 
 * {
@@ -16,4 +22,19 @@ canvas {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain;
+}
+
+#titleCard {
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
+  right: 0;
+  background: black;
+  color: white;
+  padding: 1rem;
+  animation: fadeOut 1s 1s forwards;
+}
+
+@keyframes fadeOut {
+  to {opacity: 0;}
 }
