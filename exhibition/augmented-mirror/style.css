@@ -32,7 +32,7 @@ canvas {
   background: black;
   color: white;
   padding: 1rem;
-  animation: fadeOut 1s 1s forwards;
+  animation: fadeOut 1s 2s forwards;
 }
 
 @keyframes fadeOut {
