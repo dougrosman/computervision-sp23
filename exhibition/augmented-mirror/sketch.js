@@ -126,7 +126,7 @@ function draw() {
       
       mode = (mode + 1) % numModes;
       console.log(mode)
-      console.log(dTime)
+      // console.log(dTime)
       dTime = 0;
       sketchCounter++;
       clear();
@@ -693,11 +693,6 @@ function keyPressed() {
 
   console.log(mode);
 }
-
-// function mousePressed() {
-//   let fs = fullscreen();
-//   fullscreen(!fs);
-// }
 
 function setCapture(num) {
   currentCapture = num;
