@@ -8,17 +8,33 @@ const cam0_h = 720;
 const cam1_w = 720;
 const cam1_h = 720;
 
+const constraints0 = {
+  video: {
+    mandatory: {
+      minWidth: cam0_w,
+      minHeight: cam0_h,
+      minFrameRate: 60
+    },
+  },
+  audio: false
+};
+
+const constraints1 = {
+  video: {
+    mandatory: {
+      minWidth: cam1_w,
+      minHeight: cam1_h,
+      minFrameRate: 60
+    },
+  },
+  audio: false
+};
+
 // 16:9
 let capture0;
 
 // 4:3
 let capture1;
-
-// 1:1
-let capture2;
-
-// 16:9 HD
-let capture3;
 
 let currentCapture = 0;
 
@@ -61,11 +77,15 @@ function setup() {
   background(0);
   pixelDensity(1);
 
-  capture0 = createCapture(VIDEO);
-  capture0.size(cam0_w, cam0_h);
+  capture0 = createCapture(constraints0, function(stream){
+    console.log(stream);
+  });
+  //capture0.size(cam0_w, cam0_h);
   capture0.hide();
 
-  capture1 = createCapture(VIDEO);
+  capture1 = createCapture(constraints1, function(stream){
+    console.log(stream);
+  });
   capture1.size(cam1_w, cam1_h);
   capture1.hide();
 
