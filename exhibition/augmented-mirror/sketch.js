@@ -2,17 +2,11 @@
 
 let sketchCounter = 0;
 
-const cam0_w = 640;
-const cam0_h = 360;
+const cam0_w = 1280;
+const cam0_h = 720;
 
-const cam1_w = 640;
-const cam1_h = 480;
-
-const cam2_w = 360;
-const cam2_h = 360;
-
-const cam3_w = 1280;
-const cam3_h = 720;
+const cam1_w = 720;
+const cam1_h = 720;
 
 // 16:9
 let capture0;
@@ -54,9 +48,6 @@ let unixSunrise;
 let unixSunset;
 let bgVal;
 
-/////// Ernest
-let osc, fft;
-
 
 function preload() {
   let url =
@@ -65,9 +56,8 @@ function preload() {
   blockImage = loadImage("images/MinecraftDiamonds@16.png");
 }
 
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1280, 720);
   background(0);
   pixelDensity(1);
 
@@ -78,15 +68,6 @@ function setup() {
   capture1 = createCapture(VIDEO);
   capture1.size(cam1_w, cam1_h);
   capture1.hide();
-
-  capture2 = createCapture(VIDEO);
-  capture2.size(cam2_w, cam2_h);
-  capture2.hide();
-
-  capture3 = createCapture(VIDEO);
-  capture3.size(cam3_w, cam3_h);
-  capture3.hide();
-
 
   /////// Chloe
   readMinecraftBlockColors();
@@ -103,80 +84,71 @@ function draw() {
 
   switch (mode) {
     case 0:
-      mirrorAnnie();
+      mirrorAnnie(0);
       break;
     case 1:
-      mirrorChloe();
+      mirrorChloe(1);
       break;
     case 2:
-      mirrorEmris();
+      mirrorEmris(0);
       break;
     case 3:
-      mirrorErnest();
+      mirrorErnest(0);
       break;
     case 4:
-      mirrorJun();
+      mirrorJun(0);
       break;
     case 5:
-      mirrorLula();
+      mirrorLula(0);
       break;
     case 6:
-      mirrorMeadow();
+      mirrorMeadow(1);
       break;
     case 7:
-      mirrorNicole();
+      mirrorNicole(0);
       break;
     case 8:
-      mirrorReid();
+      mirrorReid(0);
       break;
     case 9:
-      mirrorTheo();
+      mirrorTheo(0);
       break;
     case 10:
-      mirrorZechen();
+      mirrorZechen(0);
       break;
   }
 
   if (autoToggle) {
-
     // deltaTime is time between frames, so dTime accounts for time elapsed, independent of framefrate
     dTime += deltaTime
 
     if (dTime >= toggleTime) {
-      //clear();
+      
       mode = (mode + 1) % numModes;
       console.log(mode)
       console.log(dTime)
       dTime = 0;
       sketchCounter++;
+      clear();
     }
-    if(sketchCounter == numModes * 3) {
+    if (sketchCounter == numModes * 3) {
       window.location.href = window.location.href;
     }
   }
 }
 
-function mirrorAnnie() {
-  clear();
-  let capture = setCapture(3);
-
+function mirrorAnnie(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
   background(0);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
+    push();
     const stepSize = 28;
-
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -186,46 +158,40 @@ function mirrorAnnie() {
         // const threshold = map(mouseX, 0, 640, 0, 255);
         // const size = map(brightness, 0, 255, 10, 100);
 
+        textAlign(CENTER, CENTER)
         if (brightness > 180 && brightness < 250) {
-          textSize(28);
+          textSize(stepSize);
           fill(r - 20, g - 20, b - 20);
           text('行', x, y);
           // ellipse(x, y, stepSize, stepSize)
         } else if (brightness > 100 && brightness < 180) {
           fill(225, 255, b + 30);
-          textSize(28);
+          textSize(stepSize);
           text('好', x, y);
         } else {
           fill(r, g, b);
-          textSize(28);
+          textSize(stepSize);
           text('嗯', x, y);
         }
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorChloe() {
-  clear();
-  let capture = setCapture(2);
-
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
+function mirrorChloe(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 16;
+    push();
+    translate((width - capture.width) / 2, 0)
 
+    const stepSize = 32;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -247,12 +213,12 @@ function mirrorChloe() {
         let clr = color(c[0], c[1], c[2])
         fill(clr);
 
-        square(x, y, 16)
+        square(x, y, stepSize)
         distances = [];
       }
     }
+    pop();
   }
-  pop();
 }
 
 function readMinecraftBlockColors() {
@@ -267,39 +233,27 @@ function readMinecraftBlockColors() {
   }
 }
 
-function mirrorEmris() {
-  let capture = setCapture(1);
+function mirrorEmris(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
+  bgVal = map(minute(), 0, 60, 0, 255);
   background(bgVal / 1.5, 0, bgVal, 10);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   h = hour();
   if (currentH != h) {
     parseData();
     currentH = h;
   }
-  // if ((unixDT > unixSunrise) && (unixDT < unixSunset)) {
-  //   fill('yellow');
-  //   ellipse(capture.width / 5, capture.height / 5, 30, 30);
-  // } else {
-  //   fill('white');
-  //   ellipse(capture.width / 5, capture.height / 5, 20, 20);
-  // }
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
-
-    const stepSize = 10;
-
+    
+    push();
+    textAlign(LEFT, TOP);
+    const stepSize = 20;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -308,10 +262,10 @@ function mirrorEmris() {
 
         if (x % 3 == 0) {
           fill(bgVal, 255 - bgVal, 255 - bgVal, 255 - brightness * 3);
-          textSize(5);
+          textSize(stepSize*.65);
           text(currentWeather, x - (bgVal / 2), y - (bgVal / 2));
         }
-
+        
         const size = map(brightness, 0, 255, stepSize, stepSize * 3);
         noStroke();
         fill((r + b) / 2, 0, b, 255 - brightness * 2);
@@ -319,8 +273,8 @@ function mirrorEmris() {
         ellipse(x, y, size * 4, size / 3);
       }
     }
+    pop();
   }
-  pop();
 }
 
 function parseData() {
@@ -330,26 +284,19 @@ function parseData() {
   unixSunset = weatherData.sunset;
 }
 
-function mirrorErnest() {
-  let capture = setCapture(0);
+function mirrorErnest(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
   background(0, 0, 255);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 20;
-
+    push();
+    const stepSize = 26;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -377,31 +324,23 @@ function mirrorErnest() {
         );
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorJun() {
-  let capture = setCapture(0);
+function mirrorJun(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
   background(0);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
-  rectMode(CENTER);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 20;
-
+    push();
+    const stepSize = 30;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -409,7 +348,8 @@ function mirrorJun() {
         const brightness = (r + g + b) / 3;
 
         fill(r, g, b);
-        //smooth();
+        rectMode(CENTER);
+        noStroke();
 
         if (brightness > 150) {
           ellipse(x, y, stepSize / 4, stepSize);
@@ -418,30 +358,22 @@ function mirrorJun() {
         }
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorLula() {
-  let capture = setCapture(0);
+function mirrorLula(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
   background(255);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
-
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 20;
-
+    push();
+    const stepSize = 26;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -450,36 +382,30 @@ function mirrorLula() {
 
         const size = map(brightness, 0, 255, stepSize / 4, stepSize * 10);
         noFill();
-        stroke //(r, g, b);
+        stroke(0) //(r, g, b);
 
         ellipse(x, y, size, brightness) //stepSize brightness
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorMeadow() {
-  
-  let capture = setCapture(2);
+function mirrorMeadow(webcamDimensions) {
+
+  let capture = setCapture(webcamDimensions);
 
   background(100, 100, 255);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 10;
-
+    push();
+    translate((width - capture.width) / 2, 0)
+    const stepSize = 20;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -492,73 +418,56 @@ function mirrorMeadow() {
         if (brightness > 230) {
           square(y, x, 0, 0);
         } else {
-          square(y, x, 10, 10);
+          square(y, x, stepSize, 10);
         }
 
         ellipse(x, y, stepSize, stepSize);
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorNicole() {
-  let capture = setCapture(0);
+function mirrorNicole(webcamDimensions) {
+  let capture = setCapture(webcamDimensions);
 
   background(100, 0, 100);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
-    const stepSize = 40;
-
+    push();
+    const stepSize = 70;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
         const b = capture.pixels[index + 2];
         const brightness = (r + g + b) / 3;
 
-        const size = map(brightness, 0, 255, stepSize / 4, stepSize);
-        //noStroke();
-        stroke(r, g, b, 255);
+        const size = map(brightness, 0, 255, stepSize / 5, stepSize);
+
+        stroke(r, g, b);
         strokeWeight(10);
         fill(r * 2, brightness, 255);
 
-        //ellipse(x, y, size, size)
+        blendMode(HARD_LIGHT);
         rect(x, y, size * 3, size * 2);
-        textSize(brightness / 2);
+        textSize(brightness / 1.8);
         fill(180, brightness, 200);
         text("nikita", x, y);
-        blendMode(HARD_LIGHT);
-        // blendMode(REPLACE);
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorReid() {
+function mirrorReid(webcamDimensions) {
 
-  let capture = setCapture(0);
+  let capture = setCapture(webcamDimensions);
 
-  background(255);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
@@ -568,53 +477,46 @@ function mirrorReid() {
     scale(-1, 1);
     image(capture, 0, 0)
     pop()
+    
+    
 
+    push();
     const stepSize = capture.height / 5;
-
     for (let y = stepSize; y < capture.height - (capture.height / 5); y += stepSize) {
-      for (let x = 220; x < capture.width - (3*capture.height / 5); x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+      for (let x = 424; x < capture.width - (3 * capture.height / 5); x += stepSize) {
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
         const b = capture.pixels[index + 2];
-        const brightness = (r + g + b) / 3;
 
-        const size = map(brightness, 0, 255, stepSize / 4, stepSize);
         strokeWeight(5);
         stroke(255);
         fill(r, g, b);
-
+        rectMode(CORNER);
         rect(x, y, stepSize, stepSize)
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorTheo() {
+function mirrorTheo(webcamDimensions) {
 
-  let capture = setCapture(0);
+  let capture = setCapture(webcamDimensions);
 
   background(30, 30, 30);
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
-
-  // rectMode(CENTER)
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
+    push();
+
     // mirror 0
-    let stepSize = 20;
-    for (let y = 0; y < capture.height; y += stepSize) {
-      for (let x = 0; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+    let stepSize = 30;
+    for (let y = stepSize/2; y < capture.height; y += stepSize) {
+      for (let x = stepSize/2; x < capture.width; x += stepSize) {
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -624,7 +526,8 @@ function mirrorTheo() {
         fill(0, brightness, 0);
         //const threshold = map(mouseX, 0, windowWidth, 0, 255);
         const threshold = 127;
-        const size = map(brightness, 0, 255, 10, 100);
+        const size = map(brightness, 0, 255, 10, 50);
+        stroke(0);
         if (brightness > threshold) {
           ellipse(x, y, size, size)
         } else {
@@ -634,51 +537,43 @@ function mirrorTheo() {
     }
 
     // mirror 2
-    stepSize = 40;
+    stepSize = 60;
     for (let y = 0; y < capture.height; y += stepSize) {
       for (let x = 0; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
         const b = capture.pixels[index + 2];
         const brightness = (r + g + b) / 3;
 
-        line(x, y, capture.width / 2, capture.height + 40)
+        stroke(0)
+        strokeWeight(1);
+        line(x, y, capture.width / 2, capture.height)
 
         textSize(brightness / 5)
         fill(0, 255, 0);
         text("01", x, y);
       }
     }
+    pop();
   }
-  pop();
 }
 
-function mirrorZechen() {
-
-  clear();
-  let capture = setCapture(0);
-
-  const scaleRatio = min(windowWidth / capture.width, windowHeight / capture.height);
-  const scaledHeight = capture.height * scaleRatio;
-  const scaledWidth = capture.width * scaleRatio;
-
-  push()
-  translate((windowWidth - scaledWidth) / 2, (windowHeight - scaledHeight) / 2);
-  scale(scaleRatio, scaleRatio);
+function mirrorZechen(webcamDimensions) {
+  background(20, 20, 20);
+  let capture = setCapture(webcamDimensions);
 
   capture.loadPixels();
   if (capture.pixels.length > 0) {
 
+    push();
+
     // mirror 3
-    let stepSize;
-
-    stepSize = 20;
-
+    let stepSize = 30;
     for (let y = stepSize / 2; y < capture.height; y += stepSize) {
       for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-        const index = (capture.width - x + y * capture.width) * 4;
+        const index = ((capture.width - x) + y * capture.width) * 4;
 
         const r = capture.pixels[index];
         const g = capture.pixels[index + 1];
@@ -690,7 +585,7 @@ function mirrorZechen() {
         fill(226, 94, 110)
 
         textAlign(CENTER, TOP);
-        textSize(brightness / 10)
+        textSize(brightness / 5)
 
         if (brightness > 100 && brightness < 200) {
           text("De", x, y)
@@ -702,54 +597,35 @@ function mirrorZechen() {
       }
 
       // mirror 4
-
-      stepSize = 40;
+      stepSize = 60;
 
       for (let y = stepSize / 2; y < capture.height; y += stepSize) {
         for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-          const index = (capture.width - x + y * capture.width) * 4;
+          const index = ((capture.width - x) + y * capture.width) * 4;
 
           const r = capture.pixels[index];
           const g = capture.pixels[index + 1];
           const b = capture.pixels[index + 2];
-          const brightness = (r + g + b) / 2;
-
+          const brightness = (r + g + b) / 3;
+          
           rectMode(CENTER);
-          if (brightness > 100) {
+          fill(227, 169, 234, 20)
+          if (brightness > 120) {
             fill(255, 174, 113, 20)
-          } else {
-            fill(227, 169, 234, 20)
           }
-          rect(x, y, brightness / 4, brightness / 4)
+          rect(x, y, brightness / 2, brightness / 2);
+          ellipse(x, y, brightness / 6, brightness / 6)
         }
       }
-
-      // mirror 5
-      stepSize = 40;
-
-      for (let y = stepSize / 2; y < capture.height; y += stepSize) {
-        for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-          const index = (capture.width - x + y * capture.width) * 4;
-
-          const r = capture.pixels[index];
-          const g = capture.pixels[index + 1];
-          const b = capture.pixels[index + 2];
-          const brightness = (r + g + b) / 2;
-
-          if (brightness < mouseX) {
-            ellipse(x, y, brightness / 10, brightness / 10)
-          }
-        }
-      }
+      pop();
     }
-    pop();
   }
 }
 
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }
 
 function keyPressed() {
   clear();
@@ -813,6 +689,8 @@ function keyPressed() {
       if (toggleSpeed > 8) toggleSpeed -= 4;
       break;
   }
+
+
   console.log(mode);
 }
 
@@ -830,12 +708,6 @@ function setCapture(num) {
       break;
     case 1:
       capture = capture1;
-      break;
-    case 2:
-      capture = capture2;
-      break;
-    case 3:
-      capture = capture3;
       break;
   }
 

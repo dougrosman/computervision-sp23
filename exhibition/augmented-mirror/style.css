@@ -11,7 +11,9 @@ body {
 canvas {
     display: block;
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 0;
     top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
 }
