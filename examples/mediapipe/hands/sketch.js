@@ -1,38 +1,38 @@
-const videoElement = document.getElementsByClassName('input_video')[0];
-const canvasElement = document.getElementsByClassName('output_canvas')[0];
-const canvasCtx = canvasElement.getContext('2d');
 
-function onResults(results) {
-  canvasCtx.save();
-  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-  canvasCtx.drawImage(
-      results.image, 0, 0, canvasElement.width, canvasElement.height);
-  if (results.multiHandLandmarks) {
-    for (const landmarks of results.multiHandLandmarks) {
-      drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
-                     {color: '#00FF00', lineWidth: 5});
-      drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+let sketch = function(p) {
+
+
+  p.setup = function() {
+    p.createCanvas(cam_w, cam_h, p.WEBGL);
+    p.setAttributes({alpha: true})
+  }
+
+  p.draw = function() {
+    p.clear(0);
+    p.translate(-p.width/2, -p.height/2);
+
+    if(detections != undefined) {
+      if(detections.multiHandLandmarks != undefined) {
+        p.drawHands();
+      }
     }
   }
-  canvasCtx.restore();
+
+  p.drawHands = function() {
+    p.stroke(0);
+    
+    for(let i = 0; i < detections.multiHandLandmarks.length; i++) {
+      for(let j = 0; j < detections.multiHandLandmarks[i].length; j++) {
+        const x = detections.multiHandLandmarks[i][j].x * p.width;
+        const y = detections.multiHandLandmarks[i][j].y * p.height;
+        const z = detections.multiHandLandmarks[i][j].z;
+        
+        const size = p.map(z, -0.6, 0, 50, 2)
+        p.strokeWeight(size);
+        p.point(x, y, z);
+      }
+    }
+  }
 }
 
-const hands = new Hands({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-}});
-hands.setOptions({
-  maxNumHands: 2,
-  modelComplexity: 1,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
-});
-hands.onResults(onResults);
-
-const camera = new Camera(videoElement, {
-  onFrame: async () => {
-    await hands.send({image: videoElement});
-  },
-  width: 1280,
-  height: 720
-});
-camera.start();
+let myp5 = new p5(sketch)

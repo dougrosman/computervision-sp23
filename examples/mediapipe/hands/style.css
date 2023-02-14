@@ -3,6 +3,8 @@
 canvas, video {
   display: block;
   position: absolute;
+  transform: scaleX(-1);
 }
 
-video { z-index: -1; }
+canvas { z-index: 1;}
+video { z-index: 0; }

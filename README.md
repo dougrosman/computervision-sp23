@@ -29,7 +29,7 @@ So, what do we need?
 
 - [x] Webcam setup (basic)
 - [x] Webcam setup (image to canvas)
-- [] Webcam setup (image responsive)
+- [x] Webcam setup (image responsive)
 - [x] Webcam setup (canvas over video)
 - [x] Webcam setup (canvas over video responsive)
 
@@ -57,8 +57,8 @@ So, what do we need?
 - [x] Brightest Point (Avg)
 - [] Color Tracker (Dist)
 - [] Color Tracker (Avg)
-- [] Rozin Mirror
-- [] Text Rain
+- [x] Rozin Mirror
+- [x] Text Rain
 - [] Blob Detection
 - [] Optical Flow
 - [] Slit Scan
