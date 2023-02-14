@@ -9,9 +9,7 @@ function gotHands(results) {
 }
 
 const hands = new Hands({locateFile: (file) => {
-  
-  console.log(`https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`)
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+  return `models/hands/${file}`;
 }});
 hands.setOptions({
   maxNumHands: 2,
