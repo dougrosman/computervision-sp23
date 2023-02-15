@@ -1,5 +1,6 @@
-let sketch = function(p) {
+// https://google.github.io/mediapipe/solutions/pose.html
 
+let sketch = function(p) {
 
   p.setup = function() {
     p.createCanvas(cam_w, cam_h);
@@ -8,7 +9,7 @@ let sketch = function(p) {
 
   p.draw = function() {
     p.clear(0);
-    
+
     if(detections != undefined) {
       if(detections.detections != undefined) {
         p.drawFaces();
