@@ -1,0 +1,14 @@
+* {margin: 0; padding: 0; box-sizing: border-box;}
+
+
+body {
+  background-color: black;
+}
+canvas, video {
+  display: block;
+  position: absolute;
+  
+}
+
+canvas { z-index: 1;}
+video { z-index: 0; transform: scaleX(-1); }
