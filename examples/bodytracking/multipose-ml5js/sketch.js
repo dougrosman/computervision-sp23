@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+// https://learn.ml5js.org/#/reference/posenet
+
 /* ===
 ml5 Example
 PoseNet example using p5.js
