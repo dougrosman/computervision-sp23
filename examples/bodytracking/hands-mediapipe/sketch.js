@@ -40,6 +40,7 @@ let sketch = function(p) {
         const z = detections.multiHandLandmarks[i][j].z;
         
         p.point(x, y, z);
+        
 
         p.text(z.toFixed(3), x, y, z);
 
