@@ -14,7 +14,7 @@ let sketch = function (p) {
     if (detections != undefined) {
       if (detections.multiFaceLandmarks != undefined) {
         p.drawFaceMeshes();
-        // console.log(detections);
+        console.log(detections);
       }
     }
   }
@@ -26,8 +26,9 @@ let sketch = function (p) {
     for (let i = 0; i < detections.multiFaceLandmarks.length; i++) {
       for (let j = 0; j < detections.multiFaceLandmarks[i].length; j++) {
 
-        const x = p.width - detections.multiFaceLandmarks[i][j].x * p.width;
-        const y = detections.multiFaceLandmarks[i][j].y * p.height;
+        const currentFace = detections.multiFaceLandmarks[i];
+        const x = p.width - currentFace[j].x * p.width;
+        const y = currentFace[j].y * p.height;
 
         p.point(x, y);
 
