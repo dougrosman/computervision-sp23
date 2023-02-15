@@ -17,10 +17,8 @@ let sketch = function (p) {
       if (detections.multiFaceLandmarks != undefined) {
         if (detections.multiFaceLandmarks.length > 0) {
           p.drawFaceOval();
+          // p.drawFaceMeshes();
         }
-        // p.drawFaceMeshes();
-        //console.log(detections);
-
       }
     }
   }
