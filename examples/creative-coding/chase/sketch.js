@@ -1,9 +1,11 @@
+// atan2(), chase
+
 let shapePos;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
-  shapePos = createVector(width/2, height/2);
+  shapePos = createVector(width / 2, height / 2);
 }
 
 function draw() {
@@ -14,16 +16,10 @@ function draw() {
 
   push()
   translate(shapePos.x, shapePos.y);
-  rotate(angle + PI/2);
-  triangle(0, -10, -5, 10, 5, 10)
+  rotate(angle + PI / 2);
+  triangle(0, -20, -10, 20, 10, 20)
   pop()
 
-  if(mousePos.dist(shapePos) > 60) {
-
-    shapePos = p5.Vector.lerp(shapePos, mousePos, 0.01);
-  }
-  
+  shapePos = p5.Vector.lerp(shapePos, mousePos, 0.05);
 
 }
-
-class Bird {}
