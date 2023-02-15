@@ -21,7 +21,7 @@ let sketch = function (p) {
 
   p.drawFaceMeshes = function () {
     p.strokeWeight(2);
-    p.stroke(0, 0, 255);
+    p.stroke(0, 255, 255);
 
     for (let i = 0; i < detections.multiFaceLandmarks.length; i++) {
       for (let j = 0; j < detections.multiFaceLandmarks[i].length; j++) {
