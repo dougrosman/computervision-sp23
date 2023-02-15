@@ -44,6 +44,8 @@ function draw() {
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints()  {
+
+  console.log(poses);
   // Loop through all the poses detected
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
