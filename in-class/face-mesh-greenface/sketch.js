@@ -15,12 +15,12 @@ let sketch = function (p) {
 
     if (detections != undefined) {
       if (detections.multiFaceLandmarks != undefined) {
-        if(detections.multiFaceLandmarks.length > 0) {
+        if (detections.multiFaceLandmarks.length > 0) {
           p.drawFaceOval();
         }
         // p.drawFaceMeshes();
         //console.log(detections);
-        
+
       }
     }
   }
@@ -33,22 +33,24 @@ let sketch = function (p) {
     p.noStroke();
     p.fill(0, 255, 0)
 
-    p.beginShape()
-    for (let i = 0; i < FACE_OUTLINE.length; i++) {
+    for (let i = 0; i < detections.multiFaceLandmarks.length; i++) {
+      p.beginShape()
+      for (let j = 0; j < FACE_OUTLINE.length; j++) {
 
-      // current face
-      const currentFace = detections.multiFaceLandmarks[0];
-      //console.log(currentFace);
+        // current face
+        const currentFace = detections.multiFaceLandmarks[i];
+        //console.log(currentFace);
 
-      // the landmark index I want from the current face
-      const currentLandmark = FACE_OUTLINE[i][0];
+        // the landmark index I want from the current face
+        const currentLandmark = FACE_OUTLINE[j][0];
 
-      const x = p.width - (currentFace[currentLandmark].x * p.width)
-      const y = currentFace[currentLandmark].y * p.height;
+        const x = p.width - (currentFace[currentLandmark].x * p.width)
+        const y = currentFace[currentLandmark].y * p.height;
 
-      p.vertex(x, y);
+        p.vertex(x, y);
+      }
+      p.endShape(p.CLOSE)
     }
-    p.endShape(p.CLOSE)
 
   }
 
