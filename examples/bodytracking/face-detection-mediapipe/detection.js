@@ -10,6 +10,7 @@ function gotFaces(results) {
 
 const faces = new FaceDetection({locateFile: (file) => {
   //console.log(`https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`)
+  // return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
   return `models/face_detection/${file}`;
 }});
 faces.setOptions({

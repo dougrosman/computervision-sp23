@@ -10,6 +10,7 @@ function gotHands(results) {
 
 const hands = new Hands({locateFile: (file) => {
   return `models/hands/${file}`;
+  // return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
 }});
 hands.setOptions({
   maxNumHands: 2,
