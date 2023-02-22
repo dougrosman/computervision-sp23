@@ -32,7 +32,15 @@ let sketch = function(p) {
     p.stroke(0);
     p.strokeWeight(8);
 
+    
+
     for(let i = 0; i < detections.multiHandLandmarks.length; i++) {
+      
+      const INDEX_FINGER = detections.multiHandLandmarks[0][8];
+      p.fill(255, 0, 0);
+      p.ellipse(p.width-(INDEX_FINGER.x * p.width), INDEX_FINGER.y * p.height, 40, 40);
+      console.log(INDEX_FINGER);
+
       for(let j = 0; j < detections.multiHandLandmarks[i].length; j++) {
 
         const x = p.width-(detections.multiHandLandmarks[i][j].x * p.width);
