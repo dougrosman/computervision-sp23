@@ -1,7 +1,7 @@
 // Rozin Mirror
 
 const cam_w = 640;
-const cam_h = 360;
+const cam_h = 480;
 let displayScaler;
 let capture;
 let mode = 0;
@@ -11,11 +11,10 @@ let toggleTime = 2000;
 
 let dTime = 0;
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(cam_w, cam_h);
     capture = createCapture(VIDEO);
     capture.size(cam_w, cam_h);
     capture.hide();
-    displayScaler = width/cam_w;
 }
 
 function draw() {
@@ -26,8 +25,8 @@ function draw() {
     if (autoToggle) {
 
         // deltaTime is time between frames, so dTime accounts for time elapsed, independent of framefrate
-        dTime += deltaTime 
-        
+        dTime += deltaTime
+
         if (dTime >= toggleTime) {
             mode = (mode + 1) % numModes;
             console.log(mode)
@@ -36,9 +35,6 @@ function draw() {
         }
     }
 
-    push()
-    translate(0, abs((windowHeight-1280))/4)
-    scale(displayScaler, displayScaler)
     if (capture.pixels.length > 0) {
         switch (mode) {
             case 0:
@@ -58,12 +54,6 @@ function draw() {
                 break;
         }
     }
-    pop();
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    displayScaler = width/cam_w;
 }
 
 
@@ -113,8 +103,8 @@ function keyPressed() {
 
 function mirrorDoug0() {
     const stepSize = 20;
-    for (let y = stepSize/2; y < cam_h; y += stepSize) {
-        for (let x = stepSize/2; x < cam_w; x += stepSize) {
+    for (let y = stepSize / 2; y < cam_h; y += stepSize) {
+        for (let x = stepSize / 2; x < cam_w; x += stepSize) {
             const index = (cam_w - x + y * cam_w) * 4;
 
             const r = capture.pixels[index];
@@ -181,17 +171,17 @@ function mirrorDoug3() {
             const r = capture.pixels[index];
             const g = capture.pixels[index + 1];
             const b = capture.pixels[index + 2];
-            const brightness = (r + g + b) / 3; 
+            const brightness = (r + g + b) / 3;
             const size = map(brightness, 0, 255, .125, 1);
 
             stroke(r, g, b);
             strokeWeight(5);
-            
+
             push()
-                translate(x + stepSize / 2, y + stepSize / 2);
-                scale(size)
-                line(-stepSize / 2, -stepSize / 2, stepSize / 2, stepSize / 2);
-                line(stepSize / 2, -stepSize / 2, -stepSize / 2, stepSize / 2);
+            translate(x + stepSize / 2, y + stepSize / 2);
+            scale(size)
+            line(-stepSize / 2, -stepSize / 2, stepSize / 2, stepSize / 2);
+            line(stepSize / 2, -stepSize / 2, -stepSize / 2, stepSize / 2);
             pop();
         }
     }

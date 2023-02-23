@@ -18,9 +18,7 @@ function draw() {
 
     // ensure we're getting a capture feed before doing any operations on the feed
     if (capture.pixels.length > 0) {
-
         mirror();
-
     }
 }
 
@@ -31,9 +29,9 @@ function mirror() {
     const stepSize = 20;
 
     // y and x are set to stepSize/2 (instead of 0) when drawing ellipses so that they aren't cut off on the top and left sides of the sketch
-    for (let y = stepSize / 2; y < capture.height; y += stepSize) {
-        for (let x = stepSize / 2; x < capture.width; x += stepSize) {
-            // capture.width - x is an efficient way to mirror your webcam feed
+    for (let y = 0; y < capture.height; y += stepSize) {
+        for (let x = 0; x < capture.width; x += stepSize) {
+            // capture.width - x is an efficient way to mirror your webcam feed horizontally
             const index = (capture.width - x + y * capture.width) * 4;
 
             const r = capture.pixels[index];
@@ -42,7 +40,7 @@ function mirror() {
 
             noStroke();
             fill(r, g, b);
-            ellipse(x, y, stepSize, stepSize);
+            rect(x, y, stepSize, stepSize);
         }
     }
 }
