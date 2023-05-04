@@ -51,22 +51,24 @@ let sketch = function (p) {
       p.point(THUMB.x, THUMB.y, THUMB.z);
       const FINGER_DISTANCE = THUMB.dist(INDEX);
 
-      
-      
-
       if (FINGER_DISTANCE < 20) {
         p.stroke(0, 255, 0);
 
         const selectRatioX = p.windowWidth / cam_w;
         const selectRatioY = p.windowHeight / cam_h;
-        
+
         const selectPointVector = THUMB.lerp(INDEX, 0.5);
         const selectPoint = {
           x: selectPointVector.x * selectRatioX,
-          y: selectPointVector.y * selectRatioY
+          y: selectPointVector.y * selectRatioY,
         };
         p.point(selectPointVector.x, selectPointVector.y, selectPointVector.z);
-        p.text(`${Math.floor(selectPoint.x)}, ${Math.floor(selectPoint.y)}`, selectPointVector.x, selectPointVector.y, selectPointVector.z);
+        p.text(
+          `${Math.floor(selectPoint.x)}, ${Math.floor(selectPoint.y)}`,
+          selectPointVector.x,
+          selectPointVector.y,
+          selectPointVector.z
+        );
 
         fingerSelect(selectPoint);
       } else {
@@ -79,38 +81,50 @@ let sketch = function (p) {
 
 let myp5 = new p5(sketch);
 
-
+let clickedCounter = 0;
+let clickedLink = "";
 
 function fingerSelect(selectPoint) {
   links.forEach((link) => {
 
     const linkBox = link.getBoundingClientRect();
-
     if (
       selectPoint.x > linkBox.x &&
       selectPoint.x < linkBox.x + linkBox.width &&
       selectPoint.y > linkBox.y &&
       selectPoint.y < linkBox.y + linkBox.height
     ) {
-      console.log(linkBox);
-      console.log(selectPoint);
       link.style.border = "4px solid rgb(0, 255, 0)";
-    } else {
-        link.style.border = "none";
-    }
+      const currentLink = link.getAttribute("href");
 
-    // check if mouse position is in bounding box
-    // if(mousePos.x)
+      if (currentLink != clickedLink) {
+        clickedCounter = 0;
+        clickedLink = currentLink;
+      } else {
+        clickedCounter++;
+      }
+
+      if (clickedCounter > 60) {
+        nextPage.click();
+          
+        clickedCounter = 0;
+      }
+
+      console.log(clickedCounter++);
+    } else {
+      link.style.border = "none";
+      
+    }
   });
 }
 
 function fingerDeSelect() {
-    links.forEach((link) => {
-      link.style.border = "none";
-    });
-  }
-
-
+  links.forEach((link) => {
+    link.style.border = "none";
+  });
+  clickedCounter = 0;
+  clickedLink = "";
+}
 
 // //mouse debug
 //   window.addEventListener("mousemove", (e) => {
