@@ -13,6 +13,10 @@ video, canvas {
     top: 0;
 }
 
+video {
+    transform: scaleX(-1);
+}
+
 canvas {
     z-index: 1;
 }
