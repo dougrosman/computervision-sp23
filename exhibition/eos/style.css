@@ -30,6 +30,7 @@ canvas {
 .gallery-menu a {
     font-size: 2rem;
     color: black;
+    display: block;
 }
 
 .gallery-menu figure {

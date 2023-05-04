@@ -50,8 +50,11 @@ let sketch = function(p) {
         
         p.point(INDEX.x, INDEX.y, INDEX.z);
         p.point(THUMB.x, THUMB.y, THUMB.z);
+        const SELECT_POINT = THUMB.lerp(INDEX, 0.5);
+        p.point(SELECT_POINT.x, SELECT_POINT.y, SELECT_POINT.z);
 
         const FINGER_DISTANCE = THUMB.dist(INDEX);
+
         
         if(FINGER_DISTANCE < 15) {
             p.stroke(0, 255, 0);
