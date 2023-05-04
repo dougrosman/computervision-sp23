@@ -88,7 +88,7 @@ let sketch = function (p) {
       //   selectPointVector.y,
       //   selectPointVector.z
       //   );
-        if (FINGER_DISTANCE < 4) {
+        if (FINGER_DISTANCE < 8) {
         fingerSelect(selectPoint);
         
       } else {
