@@ -15,8 +15,8 @@ const hands = new Hands({locateFile: (file) => {
 hands.setOptions({
   maxNumHands: 2,
   modelComplexity: 1,
-  minDetectionConfidence: 0.9,
-  minTrackingConfidence: 0.9
+  minDetectionConfidence: 0.85,
+  minTrackingConfidence: 0.85
 });
 hands.onResults(gotHands);
 
