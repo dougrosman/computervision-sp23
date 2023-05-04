@@ -1,4 +1,5 @@
 let links = document.getElementsByClassName("work-link");
+let clickedCounter = 4;
 
 let sketch = function (p) {
   let font;
@@ -67,38 +68,42 @@ let sketch = function (p) {
       p.point(THUMB.x, THUMB.y, THUMB.z);
       const FINGER_DISTANCE = THUMB.dist(INDEX);
 
-      if (FINGER_DISTANCE < 10) {
-        p.stroke(0, 255, 0);
-
-        const selectRatioX = p.windowWidth / cam_w;
-        const selectRatioY = p.windowHeight / cam_h;
-
-        const selectPointVector = THUMB.lerp(INDEX, 0.5);
-        const selectPoint = {
-          x: selectPointVector.x * selectRatioX,
-          y: selectPointVector.y * selectRatioY,
-        };
-        p.point(selectPointVector.x, selectPointVector.y, selectPointVector.z);
-        p.text(
-          `${Math.floor(selectPoint.x)}, ${Math.floor(selectPoint.y)}`,
-          selectPointVector.x,
-          selectPointVector.y,
-          selectPointVector.z
-        );
-        p.stroke(255, 0, 0);
+      p.stroke(0, 255, 0);
+      
+      const selectRatioX = p.windowWidth / cam_w;
+      const selectRatioY = p.windowHeight / cam_h;
+      
+      const selectPointVector = THUMB.lerp(INDEX, 0.5);
+      const selectPoint = {
+        x: selectPointVector.x * selectRatioX,
+        y: selectPointVector.y * selectRatioY,
+      };
+      // p.strokeWeight(4 + (clickedCounter/5));
+      //p.imageMode(p.CENTER);
+      p.noFill();
+      p.ellipse(selectPointVector.x, selectPointVector.y, 3 + (clickedCounter/4));
+      // p.text(
+      //   `${Math.floor(selectPoint.x)}, ${Math.floor(selectPoint.y)}`,
+      //   selectPointVector.x,
+      //   selectPointVector.y,
+      //   selectPointVector.z
+      //   );
+        if (FINGER_DISTANCE < 4) {
         fingerSelect(selectPoint);
-      } else {
         
+      } else {
         fingerDeSelect();
       }
     }
   };
 };
 
+
+let clickedLink = "";
+
 let myp5 = new p5(sketch);
 
-let clickedCounter = 0;
-let clickedLink = "";
+
 
 function fingerSelect(selectPoint) {
   links.forEach((link) => {
@@ -114,16 +119,16 @@ function fingerSelect(selectPoint) {
       const currentLink = link.getAttribute("href");
 
       if (currentLink != clickedLink) {
-        clickedCounter = 0;
+        clickedCounter = 4;
         clickedLink = currentLink;
       } else {
-        clickedCounter++;
+        clickedCounter+=4;
       }
 
-      if (clickedCounter > 200) {
+      if (clickedCounter > 360) {
         window.location.href = 'placeholder'
           
-        clickedCounter = 0;
+        clickedCounter = 4;
       }
 
       // console.log(clickedCounter++);
