@@ -18,45 +18,45 @@ function draw() {
     let brightestPoint = createVector(0, 0);
     let brightPointCounter = 0;
 
-    for(let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const index = (x + y * width) * 4;
+    for (let y = 0; y < capture.height; y++) {
+        for (let x = 0; x < capture.width; x++) {
+            const index = (x + y * capture.width) * 4;
 
             const r = capture.pixels[index];
-            const g = capture.pixels[index+1];
-            const b = capture.pixels[index+2];
+            const g = capture.pixels[index + 1];
+            const b = capture.pixels[index + 2];
 
             // calculate the pixel brightness by finding the average of the three channels
             const brightness = floor((r + g + b) / 3);
 
-            if(brightness > brightestValue) {
+            if (brightness > brightestValue) {
                 brightestValue = brightness;
             }
         }
     }
 
     // now that we know the highest value, now we can find which values are close to that
-    for(let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const index = (x + y * width) * 4;
+    for (let y = 0; y < capture.height; y++) {
+        for (let x = 0; x < capture.width; x++) {
+            const index = (x + y * capture.width) * 4;
 
             const r = capture.pixels[index];
-            const g = capture.pixels[index+1];
-            const b = capture.pixels[index+2];
+            const g = capture.pixels[index + 1];
+            const b = capture.pixels[index + 2];
 
             // calculate the pixel brightness by finding the average of the three channels
             const brightness = floor((r + g + b) / 3);
 
-            if(brightestValue - brightness < 10) {
-                brightestPoint.x+=x;
-                brightestPoint.y+=y;
+            if (brightestValue - brightness < 10) {
+                brightestPoint.x += x;
+                brightestPoint.y += y;
                 brightPointCounter++;
             }
         }
     }
 
-    brightestPoint.x/=brightPointCounter;
-    brightestPoint.y/=brightPointCounter;
+    brightestPoint.x /= brightPointCounter;
+    brightestPoint.y /= brightPointCounter;
 
 
 
