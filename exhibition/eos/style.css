@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+video, canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+canvas {
+    z-index: 1;
+}
+
+.gallery-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+}
+
+.gallery-menu img {
+    width: 100%;
+    display: block;
+}
+
+.gallery-menu a {
+    font-size: 2rem;
+    color: black;
+}
+
+.gallery-menu figure {
+    position: relative;
+}
+
+.gallery-menu figcaption {
+    position: absolute;
+    inset: 0;
+    top: 75%;
+    display: grid;
+    place-items: center;
+    background-color: #fffa;
+}
