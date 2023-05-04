@@ -4,7 +4,7 @@ let sketch = function (p) {
   let font;
 
   p.preload = function () {
-    font = p.loadFont("Poppins-Medium.ttf");
+    font = p.loadFont("fonts/Poppins-Medium.ttf");
   };
 
   p.setup = function () {
@@ -26,9 +26,24 @@ let sketch = function (p) {
     }
   };
 
+  const debug = true;
+
   p.drawHands = function () {
     //   p.stroke(0);
     p.strokeWeight(4);
+
+    if(debug) {
+      for (let i = 0; i < detections.multiHandLandmarks.length; i++) {
+        for(let j = 0; j < detections.multiHandLandmarks[i].length; j++) {
+          const currentPoint = detections.multiHandLandmarks[i][j];
+          p.stroke(0, 0, 255);
+          const currentPointVector = p.createVector(p.width-(currentPoint.x * p.width), currentPoint.y * p.height, currentPoint.z);
+
+          p.point(currentPointVector.x, currentPointVector.y, currentPointVector.z);
+        }
+      }
+    }
+    
 
     for (let i = 0; i < detections.multiHandLandmarks.length; i++) {
       const THUMB_TIP = detections.multiHandLandmarks[0][4];
@@ -47,11 +62,12 @@ let sketch = function (p) {
         INDEX_FINGER_TIP.z
       );
 
+      p.stroke(255, 0, 0);
       p.point(INDEX.x, INDEX.y, INDEX.z);
       p.point(THUMB.x, THUMB.y, THUMB.z);
       const FINGER_DISTANCE = THUMB.dist(INDEX);
 
-      if (FINGER_DISTANCE < 20) {
+      if (FINGER_DISTANCE < 10) {
         p.stroke(0, 255, 0);
 
         const selectRatioX = p.windowWidth / cam_w;
@@ -69,10 +85,10 @@ let sketch = function (p) {
           selectPointVector.y,
           selectPointVector.z
         );
-
+        p.stroke(255, 0, 0);
         fingerSelect(selectPoint);
       } else {
-        p.stroke(255, 0, 0);
+        
         fingerDeSelect();
       }
     }
@@ -94,7 +110,7 @@ function fingerSelect(selectPoint) {
       selectPoint.y > linkBox.y &&
       selectPoint.y < linkBox.y + linkBox.height
     ) {
-      link.style.border = "4px solid rgb(0, 255, 0)";
+      link.style.filter = "contrast(10)";
       const currentLink = link.getAttribute("href");
 
       if (currentLink != clickedLink) {
@@ -104,15 +120,15 @@ function fingerSelect(selectPoint) {
         clickedCounter++;
       }
 
-      if (clickedCounter > 60) {
-        nextPage.click();
+      if (clickedCounter > 200) {
+        window.location.href = 'placeholder'
           
         clickedCounter = 0;
       }
 
-      console.log(clickedCounter++);
+      // console.log(clickedCounter++);
     } else {
-      link.style.border = "none";
+      link.style.filter = "unset";
       
     }
   });
@@ -120,7 +136,7 @@ function fingerSelect(selectPoint) {
 
 function fingerDeSelect() {
   links.forEach((link) => {
-    link.style.border = "none";
+    link.style.filter = "unset";
   });
   clickedCounter = 0;
   clickedLink = "";

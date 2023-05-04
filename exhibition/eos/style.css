@@ -1,7 +1,17 @@
+@font-face {
+    font-family: "Bruno Ace SC";
+    src: url("fonts/Bruno_Ace_SC/BrunoAceSC-Regular.ttf")
+}
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: Bruno Ace SC;
 }
 
 video, canvas {
@@ -15,30 +25,60 @@ video, canvas {
 
 video {
     transform: scaleX(-1);
+    display: none;
 }
 
 canvas {
-    z-index: 1;
+    /* z-index: -1; */
 }
 
 .gallery-menu {
+    /* display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); */
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.work-link {
+    /* width: fit-content; */
+    font-size: calc(1rem + 6vw);
+    text-align: justify;
+    
+    text-decoration: none;
+
+    flex-grow: 1;
+    background-size: cover;
+    background-position: center;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+    place-items: center;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    /* text-shadow: 1px 1px #0f0,
+                 2px 2px #0f0,
+                 3px 3px #0f0,
+                 4px 4px #0f0,
+                 -4px -4px #0f0; */
+}
+
+.work-link:hover {
+    filter: contrast(10)
+}
+
+/* .work-link span {
+    background-color: white;
+} */
+
+.gallery-menu figure {
+    position: relative;
+    border: 1px solid magenta;
 }
 
 .gallery-menu img {
     width: 100%;
+    height: initial;
     display: block;
-}
-
-.gallery-menu a {
-    font-size: 2rem;
-    color: black;
-    display: block;
-}
-
-.gallery-menu figure {
-    position: relative;
+    object-fit: cover;
 }
 
 .gallery-menu figcaption {
@@ -48,4 +88,44 @@ canvas {
     display: grid;
     place-items: center;
     background-color: #fffa;
+}
+
+.work-link[data-name="ANNIE"] {
+    background-image: url(images/1.png);
+}
+
+.work-link[data-name="CHLOE"] {
+    background-image: url(images/2.png);
+}
+
+.work-link[data-name="EMRIS"] {
+    background-image: url(images/3.png);
+}
+
+.work-link[data-name="ERNEST"] {
+    background-image: url(images/4.png);
+}
+
+.work-link[data-name="JUN"] {
+    background-image: url(images/5.png);
+}
+
+.work-link[data-name="MEADOW"] {
+    background-image: url(images/6.png);
+}
+
+.work-link[data-name="NICOLE"] {
+    background-image: url(images/7.png);
+}
+
+.work-link[data-name="REID"] {
+    background-image: url(images/8.png);
+}
+
+.work-link[data-name="THEO"] {
+    background-image: url(images/9.png);
+}
+
+.work-link[data-name="ZECHEN"] {
+    background-image: url(images/10.png);
 }
