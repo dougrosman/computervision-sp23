@@ -24,14 +24,21 @@ let sketch = function (p) {
   }
 
   p.drawFaceOval = function () {
-    const FACE_OUTLINE = [[10, 338], [338, 297], [297, 332], [332, 284], [284, 251], [251, 389], [389, 356], [356, 454], [454, 323], [323, 361], [361, 288], [288, 397], [397, 365], [365, 379], [379, 378],
-    [378, 400], [400, 377], [377, 152], [152, 148], [148, 176], [176, 149], [149, 150], [150, 136], [136, 172], [172, 58], [58, 132], [132, 93], [93, 234], [234, 127], [127, 162], [162, 21], [21, 54], [54, 103], [103, 67], [67, 109], [109, 10]]
+  //   const FACE_OUTLINE = [
+  //     [10, 338], [338, 297], [297, 332], [332, 284], [284, 251], [251, 389], [389, 356], [356, 454], [454, 323], [323, 361], [361, 288], [288, 397], [397, 365], [365, 379], [379, 378],
+  //   [378, 400], [400, 377], [377, 152], [152, 148], [148, 176], [176, 149], [149, 150], [150, 136], [136, 172], [172, 58], [58, 132], [132, 93], [93, 234], [234, 127], [127, 162], [162, 21], [21, 54], [54, 103], [103, 67], [67, 109], [109, 10]
+  // ]
+
+  const FACE_OUTLINE = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109]
 
     // p.strokeWeight(20);
     p.noStroke();
     p.fill(0, 255, 0)
 
+    // loop through all the faces that the camera sees
     for (let i = 0; i < detections.multiFaceLandmarks.length; i++) {
+
+
       p.beginShape()
       for (let j = 0; j < FACE_OUTLINE.length; j++) {
 
@@ -40,7 +47,7 @@ let sketch = function (p) {
         //console.log(currentFace);
 
         // the landmark index I want from the current face
-        const currentLandmark = FACE_OUTLINE[j][0];
+        const currentLandmark = FACE_OUTLINE[j];
 
         const x = p.width - (currentFace[currentLandmark].x * p.width)
         const y = currentFace[currentLandmark].y * p.height;
